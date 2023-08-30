@@ -1,0 +1,216 @@
+/*===================CANDIDATE MANAGEMENT CUSTOM STYLE========================*/
+  nav.nav_breadcrumb {
+    --bs-breadcrumb-divider: '>'; 
+    padding-top: 25px; 
+    padding-bottom: 7px; 
+    padding-left: 10px!important;
+  }
+  section#candidate_management {
+    padding: 15px;
+  }
+  .content_header {
+    margin-bottom: 10px;
+  }
+  .input-group-text {
+    background: #173b6c; 
+    color: #ffffff; 
+    padding: 10px;
+  }
+
+  /* photo upload   */
+.file-upload {
+  background-color: #ffffff;
+  margin-top: -5%;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  background: #5F76E8!important;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+}
+
+.file-upload-btn:hover {
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 50%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #868e96;;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  border: 4px dashed #868e96;;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: gray;
+  font-size: 14px;
+  padding: 60px 5px;
+}
+
+.file-upload-image {
+  max-height: 500px;
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 8px;
+  transition: all .2s ease;
+  outline: none;
+}
+
+.browse_file:hover,
+.browse_file_modal:hover {
+  background: #dddddd;
+}
+.modal-header {
+  background: #173b6c; 
+  opacity: .8; 
+  color: #f3f3f3;
+}
+.closeModalIcon {
+  font-size: 20px!important;
+}
+.filterList {
+  background: #173b6c!important; 
+  opacity: .9!important;
+  color: #f3f3f3!important;
+  
+}
+.noEvents {
+  pointer-events: none;
+}
+.activeFilter {
+  color: #ffffff!important;
+}
+.notActiveFilter {
+  color: #f3f3f3!important; 
+  opacity: .8!important;
+}
+.filterDropdown {
+  border: 1px solid gray;
+} .filterDropdown:hover {
+  opacity: .8;
+  border: 1px solid gray;
+}
+.badge {
+  font-size: 14px!important;
+}
+
+
+/*===================USER PAGES CUSTOM STYLE ========================*/
+section#campusSelect {
+  background-image: url('/src/app/Storage/configuration/bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    user-select: none;
+}
+.bannerImage, .noTouch {
+  pointer-events: none;
+}
+
+  .cardWelcome {
+    border: none;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.07);
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.07);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.07);
+  }
+  .cardCampus {
+    border: none;
+    border-radius: 0px;
+  }
+  .instruction {
+    border-left: 4px solid #664d03; 
+    border-radius: 0px;
+    opacity: .8; 
+  }
+
+  .noEvents {
+    pointer-events: none!important;
+  }
+
+    .filterContainer {
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.1);
+  }
+
+  .filterActive {
+    background-color: #f3e3d3!important;
+    font-weight: 600!important;
+    transition: .6s!important;
+  }
+  .filterNotActive {
+    background-color: #f3f3f3!important;
+    opacity: .8;
+  }
+  .badgeClient {
+    background: #24382e;
+  }
+  .btnSubmitVote {
+    background: #24382e;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+  .cardAuto {
+    max-width: auto; 
+    border: none;
+  }
+
+  ..displayNone {
+    display: none;
+  }
