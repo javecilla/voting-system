@@ -9,6 +9,6 @@ Router::handle('GET', '/admin/candidate-management/', './build/admin/cmanagement
 Router::handle('GET', '/admin/voting-records/', './build/admin/vrecords.php');
 
 // #ROUTES FOR USER PAGE NAVIGATION
-Router::handle('GET', '/select-campus/', './build/user/campus.php');
-Router::handle('GET', '/candidates/sta-maria/', './build/user/stamaria.php');
-Router::handle('GET', '/candidates/balagtas/', './build/user/balagtas.php');
+Router::handle('GET', '/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/', './build/user/campus.php');
+Router::handle('GET', '/lakan-lakanbini-lakandyosa-candidates/sta-maria-campus/', './build/user/stamaria.php');
+Router::handle('GET', '/lakan-lakanbini-lakandyosa-candidates/balagtas-campus/', './build/user/balagtas.php');

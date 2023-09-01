@@ -160,9 +160,9 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 			$mode = isset($_GET['mode']) ? $_GET['mode'] : 'view';
 			$csid = $_GET['sid'];
 			$candidate = VManagement::readDataById($csid);
-			if(isset($_GET['purpose']) && $_GET['purpose'] === "clientSide") {
+			if(isset($_GET['purpose']) && $_GET['purpose'] === "clientSide") { //client side modal
 				?> 
-					<input type="hidden" value="<?=$candidate['sid']?>" />
+					<input type="hidden" id="vSID" value="<?=$candidate['sid']?>" />
 					<div class="card cardAuto">
 						<div class="row g-0 p-1"> 
 							<div class="col-md-5 mb-3 noEvents">
@@ -247,14 +247,28 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 								 			<div class="col-md-6 mb-2">
 								 				<div class="form-floating">
       										<input type="number" class="form-control" 
-      											value="" maxlength="13" id="referrenceNumber" />
+      											value=""
+      											maxlength="13" 
+      											inputmode="numeric" 
+      											id="referrenceNumber" 
+      										/>
       										<label for="referrenceNumber">Enter Referrence Number</label>
     										</div>
 								 			</div>
 								 			<div class="col-md-6 mb-2">
 								 				<div class="form-floating">
       										<input type="text" class="form-control" 
-      											value="" id="votersEmail" />
+      											value="" 
+      											id="votersEmail"
+      											autocomplete="off"
+      											aria-label="Enter your Email" 
+      											list="emailSuggestion"
+      										/>
+      										<datalist id="emailSuggestion">
+										        <option value="javecilla@gmail.com">
+										        <option value="info@goldenmindsbulacan.com">
+										        <option value="admission@goldenmindsbulacan.com">
+										      </datalist>
       										<label for="votersEmail">Enter your Email</label>
     										</div>
 								 			</div>
@@ -275,7 +289,7 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 					</div>
 					
 				<?php
-			} else {
+			} else { //admin side modal
 				?>
 			 	<div class="card mb-3 cardAuto">
   				<div class="row g-0 p-1">
@@ -402,7 +416,7 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 
 		case 'searchFilter':
 			$seachQuery = filter_input(INPUT_GET, 'searchQuery', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-				$result = VManagement::filterDataBySearch($seachQuery);
+				$result = VManagement::filterDataBySearch($seachQuery, null, null);
 				if(is_array($result)) {
 					foreach($result as $searchData):
 						?>
@@ -456,6 +470,53 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 					endforeach;
 				} else {
 					echo "<tr><th colspan='6'>No records found.</th></tr>";
+				}
+			break;
+
+		case 'searchFilterTwo':
+			$inputSearch = filter_input(INPUT_GET, 'inputSearch', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$result = VManagement::filterDataBySearch($inputSearch, $_GET['candidateCategory'], $_GET['candidateBranch']);
+			if(is_array($result)) {
+				foreach($result as $row):
+					?>
+					<div class="col">
+						<div class="card mb-3">
+						  <div class="row g-0 ">
+						    <div class="col-md-4">
+						    	<img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
+										alt="Candidate Photo" class="img-fluid rounded-start" 
+									/>
+						    </div>
+						    <div class="col-md-8">
+						      <div class="card-body">
+						      	<span class="card-text">
+						      		<span class="badge mb-2" style="background: #24382e;">
+						      			<span class="text-uppercase">CID</span>: <?=$row['cid']?>
+						      		</span>
+						        	<?php if($row['category'] === "Lakan"): ?>
+												<span class="badge bg-success"><?=$row['category']?></span>
+											<?php elseif($row['category'] === "Lakanbini"): ?>
+												<span class="badge" style="background: #8eaf91;"><?=$row['category']?></span>
+											<?php elseif($row['category'] === "Lakandyosa"): ?>
+												<span class="badge" style="background: #4d8881;"><?=$row['category']?></span>
+											<?php endif; ?>
+						        </span>
+						        <h5 class="card-title"><?=$row['cname']?></h5>
+						        <input type="hidden" class="candidateVoteSid" value="<?=$row['sid']?>" />
+						        <input type="hidden" class="candidateCategory" value="<?=$row['category']?>"/>
+						        <input type="hidden" class="candidateBranch" value="<?=$row['sbranch']?>"/>
+										<button type="button" data-id="<?=$row['sid']?>" class="voteBtn btn btn-light mt-2" style="background-color: #f3e3d3!important;">
+										    <i class="fas fa-thumbs-up"></i>&nbsp;Vote
+										</button>
+						      </div>
+						    </div>
+						  </div>
+					</div>
+					</div>
+				<?php
+				endforeach;
+			} else {
+					echo "<h4>No records found.</h4>";
 				}
 			break;
 
@@ -558,55 +619,94 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 		case 'byCategoryBranchFilter':
 			$result = VManagement::getAllDataCategoryBranch($_GET['fcategory'], $_GET['scategory']);
 			foreach($result as $row):
-				?>
-					<tr>
-					  <th scope="row" style="width: 80px;">00<?=$row['sid']?></th>
-					  <th scope="row" style="width: 80px;"><?=$row['cid']?></th>
-					  <td scope="row" style="width: 110px;">
-					    <img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
-					    alt="Candidate Photo" class="img-thumbnail img-responsive" />
-					  </td>
-					  <td scope="row"><?=$row['cname']?></td>
-					  <td scope="row">
-					    <?php if($row['category'] === "Lakan"): ?>
-								<span class="badge bg-primary"><?=$row['category']?></span>
-							<?php elseif($row['category'] === "Lakanbini"): ?>
-								<span class="badge bg-success"><?=$row['category']?></span>
-							<?php elseif($row['category'] === "Lakandyosa"): ?>
-								<span class="badge bg-info"><?=$row['category']?></span>
-							<?php endif; ?>
-					  </td>
-					  <td scope="row" style="width: 130px;" class="text-center">
-						  <!-- Candidate identifier -->
-						  <input type="hidden" value="<?=$row['sid']?>" class="sid"/>
-						  <input type="hidden" value="<?=$row['cid']?>" class="cid"/>	
-
-						  <div class="dropdown">
-						    <button type="button" class="btn " data-bs-toggle="dropdown" aria-expanded="false">
-						      <i class="fas fa-ellipsis-h fs-3"></i>
-						    </button>
-						    <ul class="dropdown-menu">
-						      <li>
-						        <button type="button" class="btn dropdown-item viewCandidate" data-action="view">
-						          <i class="fas fa-eye"></i> View
-						        </button>
-						      </li>
-						      <li>
-						        <button type="button" class="btn dropdown-item editCandidate" data-action="edit">
-						          <i class="fas fa-edit"></i> Update
-						        </button>
-						      </li>
-						      <li>
-						        <button type="button" class="btn dropdown-item" id="deleteDataCandidate">
-						          <i class="fas fa-trash"></i> Delete
-						        </button>
-						      </li>
-						    </ul>
-						  </div>
-					 	</td>
-					</tr>
-
+				if(isset($_GET['purpose']) && $_GET['purpose'] === 'clientSide') { //render it in client side
+					?>
+						<div class="col">
+							<div class="card mb-3">
+							  <div class="row g-0 ">
+							    <div class="col-md-4">
+							    	<img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
+											alt="Candidate Photo" class="img-fluid rounded-start" 
+										/>
+							    </div>
+							    <div class="col-md-8">
+							      <div class="card-body">
+							      	<span class="card-text">
+							      		<span class="badge mb-2" style="background: #24382e;">
+							      			<span class="text-uppercase">CID</span>: <?=$row['cid']?>
+							      		</span>
+							        	<?php if($row['category'] === "Lakan"): ?>
+													<span class="badge bg-success"><?=$row['category']?></span>
+												<?php elseif($row['category'] === "Lakanbini"): ?>
+													<span class="badge" style="background: #8eaf91;"><?=$row['category']?></span>
+												<?php elseif($row['category'] === "Lakandyosa"): ?>
+													<span class="badge" style="background: #4d8881;"><?=$row['category']?></span>
+												<?php endif; ?>
+							        </span>
+							        <h5 class="card-title"><?=$row['cname']?></h5>
+							        <input type="hidden" class="candidateVoteSid" value="<?=$row['sid']?>" />
+							        <input type="hidden" class="candidateCategory" value="<?=$row['category']?>"/>
+							        <input type="hidden" class="candidateBranch" value="<?=$row['sbranch']?>"/>
+											<button type="button" data-id="<?=$row['sid']?>" class="voteBtn btn btn-light mt-2" style="background-color: #f3e3d3!important;">
+											    <i class="fas fa-thumbs-up"></i>&nbsp;Vote
+											</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</div>
 					<?php
+				} else { //render by admin side
+					?>
+						<tr>
+						  <th scope="row" style="width: 80px;">00<?=$row['sid']?></th>
+						  <th scope="row" style="width: 80px;"><?=$row['cid']?></th>
+						  <td scope="row" style="width: 110px;">
+						    <img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
+						    alt="Candidate Photo" class="img-thumbnail img-responsive" />
+						  </td>
+						  <td scope="row"><?=$row['cname']?></td>
+						  <td scope="row">
+						    <?php if($row['category'] === "Lakan"): ?>
+									<span class="badge bg-primary"><?=$row['category']?></span>
+								<?php elseif($row['category'] === "Lakanbini"): ?>
+									<span class="badge bg-success"><?=$row['category']?></span>
+								<?php elseif($row['category'] === "Lakandyosa"): ?>
+									<span class="badge bg-info"><?=$row['category']?></span>
+								<?php endif; ?>
+						  </td>
+						  <td scope="row" style="width: 130px;" class="text-center">
+							  <!-- Candidate identifier -->
+							  <input type="hidden" value="<?=$row['sid']?>" class="sid"/>
+							  <input type="hidden" value="<?=$row['cid']?>" class="cid"/>	
+
+							  <div class="dropdown">
+							    <button type="button" class="btn " data-bs-toggle="dropdown" aria-expanded="false">
+							      <i class="fas fa-ellipsis-h fs-3"></i>
+							    </button>
+							    <ul class="dropdown-menu">
+							      <li>
+							        <button type="button" class="btn dropdown-item viewCandidate" data-action="view">
+							          <i class="fas fa-eye"></i> View
+							        </button>
+							      </li>
+							      <li>
+							        <button type="button" class="btn dropdown-item editCandidate" data-action="edit">
+							          <i class="fas fa-edit"></i> Update
+							        </button>
+							      </li>
+							      <li>
+							        <button type="button" class="btn dropdown-item" id="deleteDataCandidate">
+							          <i class="fas fa-trash"></i> Delete
+							        </button>
+							      </li>
+							    </ul>
+							  </div>
+						 	</td>
+						</tr>
+					<?php
+				}
+				
 				
 			endforeach;	
 			break;

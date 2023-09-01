@@ -1,4 +1,68 @@
-    /**[Fetch ALl Candidate List]**/
+  /*[To fetch number of pending vote]*/
+  function getTotalPendingVotes(branchname) {
+    // return the total number of pedning votes in two branch
+    $.ajax({
+      url: "../../src/app/Actions/HClientVotes.php",
+      method: "GET",
+      dataType: "html",
+      data: { 
+        branchname: branchname,
+        action: 'read', 
+        task: 'pendingVotes'
+      },
+      success: (data) => {
+        if(branchname === "Golden Minds Colleges - Sta.Maria") {
+          $('#pendingVoteStaMaria').html(data);
+        } else if (branchname === "Golden Minds Colleges - Balagtas") {
+           $('#pendingVoteBalagtas').html(data);
+        }
+      }
+    }).done((response) => {
+      console.log(response);
+    }).fail((xhr, status, error) => {
+      console.log(xhr, status, error);
+    });
+  }
+
+  /**[Fetch ALl Votes Records by branch]**/
+  function getAllVoteRecordsByBranch(branchname) {
+    $.ajax({
+      url: "../../src/app/Actions/HClientVotes.php",
+      method: "GET",
+      dataType: "html",
+      data: { 
+        branchname: branchname,
+        action: 'read', 
+        task: 'byBranch'
+      },
+      success: (data) => {
+        $('#tbodyVotesRecords').html(data);
+      }
+    }).done((response) => {
+      console.log(response);
+    }).fail((xhr, status, error) => {
+      console.log(xhr, status, error);
+    });
+  }
+
+  /**[Fetch ALl Votes Records]**/
+  function getAllVoteRecords() {
+    $.ajax({
+      url: "../../src/app/Actions/HClientVotes.php",
+      method: "GET",
+      dataType: "html",
+      data: { action: 'read', task: 'allRecords'},
+      success: (data) => {
+        $('#tbodyVotesRecords').html(data);
+      }
+    }).done((response) => {
+      console.log(response);
+    }).fail((xhr, status, error) => {
+      console.log(xhr, status, error);
+    });
+  }
+
+  /**[Fetch ALl Candidate List]**/
   function getAllCandidateData() {
     $.ajax({
       url: "../../src/app/Actions/HCandidateManagement.php",
@@ -15,8 +79,26 @@
     });
   }
 
+  function searchCandidateCategoryBranch(inputSearch, queryTwo, queryThree) {
+    $.ajax({
+      url: "../../src/app/Actions/HCandidateManagement.php",
+      method: "GET",
+      dataType: "html",
+      data: { 
+        action: 'read', 
+        inputSearch: inputSearch,
+        candidateCategory: queryTwo,
+        candidateBranch: queryThree,
+        category: 'searchFilterTwo'
+      },
+      success: (data) => {
+        $('#candidateList_card').html(data);
+      }
+    });
+  }
+
   /**[Fetch ALl Candidate By branch] [NOT FINISH YET]**/ 
-  function getAllCandidatesByBranch(branchname) {
+  function getAllCandidatesByBranch(branchname, pagename) {
     $.ajax({
       url: "../../src/app/Actions/HCandidateManagement.php",
       method: "GET",
@@ -29,6 +111,10 @@
       success: (data) => {
         $('#candidateList_card').html(data);
       }
+    }).done((response) => {
+      console.log(response);
+    }).fail((xhr, status, error) => {
+      console.log(xhr, status, error);
     });
   }
 
@@ -59,12 +145,18 @@
         category: 'byCategoryBranchFilter'
       },
       success: (data) => {
+        if(purpose === 'adminSide') {
+          $('#tbodyCandidates').html(data);
+        } else if(purpose === 'clientSide') {
+          $('#candidateList_card').html(data);
+        } else {
+          console.log("Something went wrong");
+        }
         //$('#tbodyCandidates').html(data);      
-        (purpose === 'adminSide') ? $('#tbodyCandidates').html(data) : $('#candidateList_card').html(data); 
+        //(purpose === 'adminSide') ? $('#tbodyCandidates').html(data) : $('#candidateList_card').html(data); 
       }
     });
   }
-
 
   /**[Fetch Specific Data of Candidate]**/
   function getCandidateDataById(sid, mode, renderPurpose) {

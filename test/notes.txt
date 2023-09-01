@@ -11,3 +11,12 @@ git push -u origin main
 git remote add origin https://github.com/javecilla/voting-system.git
 git branch -M main
 git push -u origin main
+
+[push modified or changes to repository]
+git status
+git add .
+git commit -m "commited"
+git push -u origin main
+
+[Token]
+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

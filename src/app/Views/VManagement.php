@@ -26,10 +26,10 @@ class VManagement extends MManagement
     return $result;
   }
 
-  public static function filterDataBySearch($query)
+  public static function filterDataBySearch($inputQuery, $queryCategory, $queryBranch)
   {
     $searchData = new MManagement();
-    $result = $searchData->getDataBySearch($query);
+    $result = $searchData->getDataBySearch($inputQuery, $queryCategory, $queryBranch);
 
     return $result;
   }

@@ -1,10 +1,10 @@
 jQuery(document).ready(function() {
 	const RENDER_PURPOSE = 'clientSide';
-	const BASE_BRANCH = "Golden Minds Colleges - Sta.Maria";
+	const BASE_BRANCH = "Golden Minds Colleges - Balagtas";
 
 	getAllCandidatesByBranch(BASE_BRANCH);
 
-	/**[To submit the votes] **/ 
+	/**[To submit the votes] [NOT FINISH YET]**/ 
 	$('#submitVote').on('click', (e) => {
 		e.preventDefault();
 		const REGX_EMAIL = /^([a-zA-z]+)([0-9]+)?(@)([a-zA-Z]{5,10}(.)([a-zA-Z]+))$/i;

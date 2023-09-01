@@ -1,4 +1,4 @@
-    $(document).ready(function() {
+jQuery(document).ready(function() {
       var renderPurpose = 'adminSide';
     //call needed function 
     trackCurrentURI();
@@ -60,7 +60,7 @@
           console.log(response);
         }).fail((xhr, status, error) => {
           console.log(xhr, status, error);
-        });;
+        });
       }
     });
 

@@ -108,15 +108,40 @@ class MManagement extends Database
 	}
 
 	/* [to get candidates data by search filter] */	
-	protected function getDataBySearch($query) 
-	{
- 		$stmt = $this->db()->prepare("SELECT * FROM candidate WHERE CONCAT(cname, ' ', cid) LIKE :query");
-    $stmt->bindValue(':query', '%' . $query . '%', \PDO::PARAM_STR);
-    $stmt->execute();
-    $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	// protected function getDataBySearch($query) 
+	// {
+ 	// 	$stmt = $this->db()->prepare("SELECT * FROM candidate WHERE CONCAT(cname, ' ', cid) LIKE :query");
+  //   $stmt->bindValue(':query', '%' . $query . '%', \PDO::PARAM_STR);
+  //   $stmt->execute();
+  //   $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     
-    return $result !== false ? $result : null;
+  //   return $result !== false ? $result : null;
+	// }
+
+	protected function getDataBySearch($inputQuery, $category = null, $sbranch = null)
+	{
+		$sql = "SELECT * FROM candidate WHERE CONCAT(cname, ' ', cid) LIKE :inputQuery";
+		//check if this category is set or null
+		if($category !== null && $sbranch !== null) {
+		  //hindi siya null, ibig sabihin si branch and category ay may laman
+		  //then this query condition will add
+		  $sql .= " AND category = :category AND sbranch = :sbranch";
+		}
+
+		$stmt = $this->db()->prepare($sql);
+		$stmt->bindValue(':inputQuery', '%' . $inputQuery . '%', \PDO::PARAM_STR);
+
+		if($sbranch !== null) {
+		  $stmt->bindParam(':category', $category, \PDO::PARAM_STR);
+		  $stmt->bindParam(':sbranch', $sbranch, \PDO::PARAM_STR);
+		}
+
+		$stmt->execute();
+		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+		return $result !== false ? $result : null;
 	}
+
 
 	/* [to update candidate records] */
 	protected function updateCandidate(array $data)

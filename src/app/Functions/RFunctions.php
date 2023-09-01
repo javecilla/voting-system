@@ -30,4 +30,14 @@ class RFunctions
     return ['success' => true, 'imgname' => $newImgName, 'imgext' => $imgExtLC, 'imgtmp' => $imgTMPname];
   }
 
+  public static function validateEmail(string $email) 
+  {
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      //email is valid
+      return ['success' => false, 'message' => 'Invalid email address! Please enter a valid email address.'];
+    }
+    //email is valid
+    return ['success' => true, 'email' => $email];
+  }
+
 }

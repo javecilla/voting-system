@@ -1,6 +1,6 @@
 <nav class="bg-light nav_breadcrumb" aria-label="breadcrumb" >
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="#">Admin</a></li>
     <li class="breadcrumb-item active" aria-current="page">Candidate Management</li>
   </ol>
 </nav>

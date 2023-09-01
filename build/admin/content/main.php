@@ -72,7 +72,7 @@
 	        	</a>
 	        </li>
 	        <li>
-	        	<a href="/select-campus/" target="_blank" class="nav-link sb_upages">
+	        	<a href="/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/" target="_blank" class="nav-link sb_upages">
 	        		<i class="fas fa-pager"></i> <span>User Pages</span>
 	        	</a>
 	        </li>
