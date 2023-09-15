@@ -1,3 +1,38 @@
+  function getCandidateByRank(branchname, category) {
+    $.ajax({
+      url: "../../src/app/Actions/HCandidatesRanking.php",
+      method: "GET",
+      dataType: "html",
+      data: { 
+        action: 'read', 
+        task: 'rankBybranch',
+        branchname: branchname,
+        category: category
+      },
+      success: (data) => {
+        $('#tbodyCandidatesRanking').html(data);
+      }
+    });
+  }
+
+
+  function getAllVoteRecordsBySearch(searchQuery, branchname) {
+    $.ajax({
+      url: "../../src/app/Actions/HClientVotes.php",
+      method: "GET",
+      dataType: "html",
+      data: { 
+        action: 'read', 
+        task: 'searchFilter',
+        searchQuery: searchQuery,
+        branchname: branchname
+      },
+      success: (data) => {
+        $('#tbodyVotesRecords').html(data);
+      }
+    });
+  }
+
   /*[To fetch number of pending vote]*/
   function getTotalPendingVotes(branchname) {
     // return the total number of pedning votes in two branch
@@ -17,10 +52,6 @@
            $('#pendingVoteBalagtas').html(data);
         }
       }
-    }).done((response) => {
-      console.log(response);
-    }).fail((xhr, status, error) => {
-      console.log(xhr, status, error);
     });
   }
 
@@ -38,10 +69,6 @@
       success: (data) => {
         $('#tbodyVotesRecords').html(data);
       }
-    }).done((response) => {
-      console.log(response);
-    }).fail((xhr, status, error) => {
-      console.log(xhr, status, error);
     });
   }
 
@@ -55,10 +82,6 @@
       success: (data) => {
         $('#tbodyVotesRecords').html(data);
       }
-    }).done((response) => {
-      console.log(response);
-    }).fail((xhr, status, error) => {
-      console.log(xhr, status, error);
     });
   }
 

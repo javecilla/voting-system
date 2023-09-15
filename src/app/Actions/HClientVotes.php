@@ -65,6 +65,7 @@ if(isset($_GET['action']) && $_GET['action'] === READ && isset($_GET['task'])) {
 					<tr>
 	          <td>00<?=$row['vid']?></td>
 	          <td>00<?=$row['sid']?></td>
+	          <td><?=$row['cid']?></td>
 	          <td><span class="badge rounded-pill bg-primary">₱<?=$row['amt_payment']?></span></td>
 	          <td><span class="badge rounded-pill bg-info"><?=$row['vote_points']?></span></td>
 	          <td><?=$row['referrence_no']?></td>
@@ -98,7 +99,7 @@ if(isset($_GET['action']) && $_GET['action'] === READ && isset($_GET['task'])) {
 		            data-id="<?=$row['vid']?>" 
 	              data-bs-toggle="tooltip" 
 	              data-bs-title="Delete this vote">
-	              <i class="fas fa-user-minus"></i>&nbsp;Remove
+	              <i class="fas fa-user-minus"></i>&nbsp;
 	            </button>
 	          </td>
 	        </tr>
@@ -114,6 +115,7 @@ if(isset($_GET['action']) && $_GET['action'] === READ && isset($_GET['task'])) {
 					<tr>
 	          <td>00<?=$row['vid']?></td>
 	          <td>00<?=$row['sid']?></td>
+	          <td><?=$row['cid']?></td>
 	          <td><span class="badge rounded-pill bg-primary">₱<?=$row['amt_payment']?></span></td>
 	          <td><span class="badge rounded-pill bg-info"><?=$row['vote_points']?></span></td>
 	          <td><?=$row['referrence_no']?></td>
@@ -147,7 +149,7 @@ if(isset($_GET['action']) && $_GET['action'] === READ && isset($_GET['task'])) {
 		            data-id="<?=$row['vid']?>" 
 	              data-bs-toggle="tooltip" 
 	              data-bs-title="Delete this vote">
-	              <i class="fas fa-user-minus"></i>&nbsp;Remove
+	              <i class="fas fa-user-minus"></i>&nbsp;
 	            </button>
 	          </td>
 	        </tr>
@@ -160,40 +162,82 @@ if(isset($_GET['action']) && $_GET['action'] === READ && isset($_GET['task'])) {
 				$pendingVotes = VVote::readPendingVotes($_GET['branchname']);
 				if($_GET['branchname'] === "Golden Minds Colleges - Balagtas") {
 					?>
-					<button class="filter-item nav-link btn position-relative filterBtnNotActive"
-              type="button"
-             
-              data-value="Golden Minds Colleges - Balagtas">
-              Balagtas <span class="pendingVote position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                id="countPendingVotesBalagtas"  
-                data-bs-toggle="tooltip" 
-                data-bs-title="Pending votes">
-                <?=$pendingVotes?>
-                <span class="visually-hidden">Pending votes</span>
-              </span>
-              
-            </button>
-						
+          <?php if($pendingVotes > 0): ?>
+           	<span class="pendingVote position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="countPendingVotesBalagtas">
+            	<?=$pendingVotes?>
+           		<span class="visually-hidden">Pending votes</span>
+            </span>
+          <?php else: ?>
+          <?php endif; ?>
 					<?php
 				} else {
 					?>
-					<button class="filter-item nav-link btn position-relative filterBtnNotActive"
-              type="button"
-              id="pendingVoteStaMaria"
-              data-value="Golden Minds Colleges - Sta.Maria">
-              Sta.Maria
-              <span class="pendingVote position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                id="countPendingVotesStaMaria"
-                data-bs-toggle="tooltip" 
-                data-bs-title="Pending votes">
-                <?=$pendingVotes?>
-                <span class="visually-hidden">Pending votes</span>
-              </span>
-            </button>
-						
+          <?php if($pendingVotes > 0): ?>
+           	<span class="pendingVote position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="countPendingVotesStaMaria">
+              <?=$pendingVotes?>
+              <span class="visually-hidden">Pending votes</span>
+            </span>
+            <?php else: ?>
+           	<?php endif; ?>
 					<?php
 				}
 			} 
+			break;
+
+		case 'searchFilter':
+			$searchInput = filter_input(INPUT_GET, 'searchQuery', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$result = VVote::readDataBySearch($searchInput, $_GET['branchname']);
+			if(is_array($result)) {
+				foreach($result as $row): 
+				$datetimeVoted = date("F j, Y, g:iA", strtotime($row['vote_datetime'])); 
+				?> 
+					<tr>
+	          <td>00<?=$row['vid']?></td>
+	          <td>00<?=$row['sid']?></td>
+	          <td><?=$row['cid']?></td>
+	          <td><span class="badge rounded-pill bg-primary">₱<?=$row['amt_payment']?></span></td>
+	          <td><span class="badge rounded-pill bg-info"><?=$row['vote_points']?></span></td>
+	          <td><?=$row['referrence_no']?></td>
+	          <td><?=$row['voters_email']?></td>
+	          <td>
+	          	<!-- Votes pending -->
+	          	<?php if($row['vote_status'] === 0): ?>
+	          		<button class="btn btn-sm btn-warning"
+		              type="button"
+		              id="updateVoteStatus"
+		              data-id="<?=$row['vid']?>"
+		              data-value="1">
+		              Pending
+	            	</button>
+	            <!-- Votes is verified -->
+	          	<?php else: ?>
+	          		<button class="btn btn-sm btn-success"
+		              type="button"
+		              id="updateVoteStatus"
+		              data-id="<?=$row['vid']?>"
+		              data-value="0">
+		              Verified
+	            	</button>
+	          	<?php endif; ?>
+	          </td>
+	          <td><?=$datetimeVoted;?></td>
+	          <td>
+	            <button class="btn btn-danger btn-sm"
+	           	 	type="button"
+	            	id="removeVote"
+		            data-id="<?=$row['vid']?>" 
+	              data-bs-toggle="tooltip" 
+	              data-bs-title="Delete this vote">
+	              <i class="fas fa-user-minus"></i>&nbsp;
+	            </button>
+	          </td>
+	        </tr>
+				<?php
+			endforeach;
+			} else {
+				echo "<tr><th colspan='9'>No records found.</th></tr>";
+			}
+			
 			break;
 
 		default:

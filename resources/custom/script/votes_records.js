@@ -20,7 +20,17 @@ jQuery(document).ready(function() {
       getAllVoteRecordsByBranch(branch);
       $('#filterActiveValue').val(branch);
     }
-    
+
+    getTotalPendingVotes(STA_MARIA);
+    getTotalPendingVotes(BALAGTAS);
+  });
+
+  /*[To search filter the votes records]*/
+  $('#searchInput').on('keyup', (e) => {
+    const searchQuery = $(e.currentTarget).val();
+    let branchActive = $('#filterActiveValue').val();
+
+    (isEmpty(searchQuery)) ? getAllVoteRecords() : getAllVoteRecordsBySearch(searchQuery, branchActive);
   });
 
   /*[To update vote status]*/
@@ -66,15 +76,22 @@ jQuery(document).ready(function() {
                         confirmButtonText: 'Okay'
                       }).then((result) => {
                         if(result.isConfirmed) {
+                          $('#stamaria').removeClass('filterBtnActive').addClass('filterBtnNotActive');
+                          $('#balagtas').removeClass('filterBtnActive').addClass('filterBtnNotActive');
+
                           if(isEmpty(filterActiveValue)) {
                             getTotalPendingVotes(STA_MARIA);
                             getTotalPendingVotes(BALAGTAS);
                             getAllVoteRecords();
+                          } else if (filterActiveValue === STA_MARIA) {
+                            $('#stamaria').removeClass('filterBtnNotActive').addClass('filterBtnActive');
                           } else {
-                            getTotalPendingVotes(STA_MARIA);
-                            getTotalPendingVotes(BALAGTAS);
-                            getAllVoteRecordsByBranch(filterActiveValue);
-                          }   
+                            $('#balagtas').removeClass('filterBtnNotActive').addClass('filterBtnActive');
+                          }
+
+                          getTotalPendingVotes(STA_MARIA);
+                          getTotalPendingVotes(BALAGTAS);
+                          getAllVoteRecordsByBranch(filterActiveValue);
                         }
                       });
                     } else { 
@@ -154,7 +171,10 @@ jQuery(document).ready(function() {
                   getAllVoteRecordsByBranch(filterActiveValue);
                   $('.filter-item').removeClass('filterBtnActive').addClass('filterBtnNotActive');
                   $(`[data-value="${filterActiveValue}"]`).removeClass('filterBtnNotActive').addClass('filterBtnActive');
-                }  
+                }
+
+                getTotalPendingVotes(STA_MARIA);
+                getTotalPendingVotes(BALAGTAS);  
               }
             });
           } else { 

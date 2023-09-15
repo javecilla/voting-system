@@ -81,14 +81,16 @@ jQuery(document).ready(function() {
 					                title: '',
 					                html: `<h5>${serverResponse.message}</h5>`,
 					                icon: 'success',
-					                confirmButtonText: 'Okay'
+					                confirmButtonText: 'Vote again this candidate',
+					                showCancelButton: true,
+        									cancelButtonText: "Done and exit",
 					              }).then((result) => {
-					                if(result.isConfirmed) {
-					                  $('#selectPayment').val('');
-														$('#referrenceNumber').val('');
-														$('#votersEmail').val('');
-					                  closeModal('#modalVoteForm');
-					                }
+					              	$('#selectPayment').val('');
+					                $('#equivalentVotePoints').val('');
+					                $('#referrenceNumber').val('');
+					                $('#votersEmail').val('');
+      										$('#qrCodeImage').attr('src', '');
+					              	(result.isConfirmed) ? openModal('#modalVoteForm') : closeModal('#modalVoteForm');
 					              });
 											} else { //something wrong upon proccessing voting request
 												Swal.fire({
@@ -123,7 +125,7 @@ jQuery(document).ready(function() {
 									}
 								});
                         
-              }, 1000);
+              }, 2000);
             });
           }
         },

@@ -59,16 +59,17 @@
 	        <li><a href="/admin/dashboard/" class="nav-link sb_dashboard">
 	        	<i class="fas fa-igloo"></i> <span>Dashboard</span></a>
 	        </li>
+	        
+	        <li><a href="/admin/voting-records/" class="nav-link sb_vrecords">
+	        	<!-- <i class="fas fa-database"></i> -->
+	        	<i class="fas fa-database"></i> <span>Votes Management</span></a>
+	        </li> 
 	        <li><a href="/admin/candidate-management/" class="nav-link sb_cmanagement">
 	        	<i class="fas fa-users"></i> <span>Candidate Management</span></a>
 	       	</li>
-	        <li><a href="/admin/voting-records/" class="nav-link sb_vrecords">
-	        	<!-- <i class="fas fa-database"></i> -->
-	        	<i class="fas fa-database"></i> <span>Voting Records</span></a>
-	        </li> 
 	         <li>
-	        	<a href="javascript:void(0)" class="nav-link " style="cursor: no-drop;">
-	        		<i class="fas fa-file-export"></i> <span>Generate Reports</span>
+	        	<a href="/admin/candidates-ranking/" class="nav-link sb_crankings">
+	        		<i class="fas fa-sort-amount-up"></i> <span>Candidates Ranking</span>
 	        	</a>
 	        </li>
 	        <li>

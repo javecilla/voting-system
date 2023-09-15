@@ -6,6 +6,7 @@ declare(strict_types = 1);
 namespace App\Views;
 
 use App\Models\MManagement;
+
 // use App\Controllers\CManagement;
 
 class VManagement extends MManagement

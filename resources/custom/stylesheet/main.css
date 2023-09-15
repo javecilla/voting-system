@@ -172,6 +172,10 @@ section#campusSelect {
   pointer-events: none;
 }
 
+.cpointer {
+  cursor: pointer;
+}
+
   .cardWelcome {
     border: none;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.07);
@@ -340,4 +344,44 @@ section#campusSelect {
       opacity: 0;
       border-radius: 50%;
    }
+}
+
+
+  .order-card {
+    color: #fff;
+}
+
+.bg-c-blue {
+/*    background: linear-gradient(45deg,#4099ff,#73b4ff);*/
+background-color: #537895;
+background-image: linear-gradient(315deg, #537895 0%, #003153 0%);
+}
+
+
+
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+    padding: 22px;
+}
+
+.order-card i {
+    font-size: 26px;
+}
+
+.f-left {
+    float: left;
+}
+
+.f-right {
+    float: right;
 }

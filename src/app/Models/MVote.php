@@ -12,7 +12,8 @@ namespace App\Models;
 class MVote extends Database
 {
 	private array $response = [];
-	private int $status = 0; //set the status to 0 as pending vote
+	private int $pending = 0; //set the status to 0 as pending vote
+	private int $verfied = 1;
 	private string $datetime;
 
 	public function __construct() {
@@ -35,7 +36,7 @@ class MVote extends Database
 	    		':points' => $data['votePoints'],
 	    		':rnumber' => $data['referrenceNumber'],
 	    		':email' => $data['votersEmail'],
-	    		':status' => $this->status,
+	    		':status' => $this->pending,
 	    		':vdatetime' => $this->datetime
 	    	];
 	    	foreach($dataForm as $key => $value) {
@@ -46,7 +47,7 @@ class MVote extends Database
 					$this->response = ['success' => false, 'message' => 'Something went wrong: Failed to submit vote ' . $stmt->errorInfo()[2]];
 				} 
 
-	    	$this->response = ['success' => true, 'message' => 'Your vote has been successfully submitted. Thank you for participating; your vote is greatly appreciated and makes a difference.'];
+	    	$this->response = ['success' => true, 'message' => 'Your vote has been successfully submitted. Thank you for participating; your vote is greatly appreciated and makes a difference. <br/><br/> <small>Kindly be informed that the vote counting process may require a brief moment as it includes a verification step for the team. Once this verification is completed, the vote count will commence.</small>'];
 
     	} catch (\PDOException $e) {
     		$this->response = ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
@@ -74,10 +75,39 @@ class MVote extends Database
 	/* [To get all votes records]*/
 	protected function getAllData()
 	{
-		$stmt = $this->db()->prepare("SELECT * FROM votes ORDER BY vid DESC");
+		$stmt = $this->db()->prepare("SELECT v.*, c.* 
+			FROM votes v
+			INNER JOIN candidate c ON v.sid = c.sid
+			ORDER BY vote_status ASC");
 		$stmt->execute();
 		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		
+		return $result !== false ? $result : null;
+	}
+
+	protected function getDataBySearch($inputQuery, $branchname = "")
+	{
+		$sql = "SELECT v.*, c.* 
+		FROM votes v 
+		INNER JOIN candidate c ON v.sid = c.sid
+		WHERE CONCAT(v.referrence_no) LIKE :inputQuery";
+		//check if this category is set or null
+		if($branchname !== "") {
+		  //hindi siya null, ibig sabihin si branch and category ay may laman
+		  //then this query condition will add
+		  $sql .= " AND c.sbranch = :branchname";
+		}
+
+		$stmt = $this->db()->prepare($sql);
+		$stmt->bindValue(':inputQuery', '%' . $inputQuery . '%', \PDO::PARAM_STR);
+
+		if($branchname !== "") {
+		  $stmt->bindParam(':branchname', $branchname, \PDO::PARAM_STR);
+		}
+
+		$stmt->execute();
+		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
 		return $result !== false ? $result : null;
 	}
 
@@ -88,7 +118,7 @@ class MVote extends Database
 			FROM votes v 
 			INNER JOIN candidate c ON v.sid = c.sid
 			WHERE c.sbranch = :branch
-			ORDER BY v.vid DESC
+			ORDER BY v.vote_datetime DESC
 		");
 		$stmt->bindParam(':branch', $branchname, \PDO::PARAM_STR);
 		$stmt->execute();
@@ -100,19 +130,76 @@ class MVote extends Database
 	/*[To get pending votes by branch]*/
 	protected function getTotalPendingVotes($branchname)
 	{
-		$stmt = $this->db()->prepare("SELECT COUNT(*)
+		$sql = "
+			SELECT COUNT(*)
 			FROM votes v
 			INNER JOIN candidate c ON v.sid = c.sid
-			WHERE c.sbranch = :branch
-			AND v.vote_status = :status
-		");
-		$stmt->bindParam(':branch', $branchname, \PDO::PARAM_STR);
-		$stmt->bindParam(':status', $this->status, \PDO::PARAM_INT);
-		$stmt->execute();
-		$count = $stmt->fetchColumn();
+			WHERE v.vote_status = :status";
 
-	 	return $count; 
+			if(!empty($branchname)) {
+				$sql .= " AND c.sbranch = :branch";
+			}
+
+			$stmt = $this->db()->prepare($sql);
+			$stmt->bindParam(':status', $this->pending, \PDO::PARAM_INT);
+
+			if(!empty($branchname)) {
+				$stmt->bindParam(':branch', $branchname, \PDO::PARAM_STR);
+			}
+
+			$stmt->execute();
+			$count = $stmt->fetchColumn();
+			return $count; 
 	}
+
+	protected function getTotalNumberOfVoters($branchname)
+	{
+		$sql = "
+			SELECT COUNT(*)
+			FROM votes v
+			INNER JOIN candidate c ON v.sid = c.sid";
+
+			if(!empty($branchname)) {
+				$sql .= " AND c.sbranch = :branch";
+			}
+
+			$stmt = $this->db()->prepare($sql);
+			if(!empty($branchname)) {
+				$stmt->bindParam(':branch', $branchname, \PDO::PARAM_STR);
+			}
+
+			$stmt->execute();
+			$count = $stmt->fetchColumn();
+			return $count;
+	}
+
+	protected function getTotalAmmountPayment($branchname)
+	{
+		$sql = "
+			SELECT 
+			SUM(v.amt_payment) AS total_ammount
+			FROM votes v
+			INNER JOIN candidate c ON v.sid = c.sid
+			WHERE v.vote_status = :status";
+
+			if(!empty($branchname)) {
+				$sql .= " AND c.sbranch = :branch";
+			}
+
+			$stmt = $this->db()->prepare($sql);
+			$stmt->bindParam(':status', $this->verfied, \PDO::PARAM_INT);
+
+			if(!empty($branchname)) {
+				$stmt->bindParam(':branch', $branchname, \PDO::PARAM_STR);
+			}
+
+			$stmt->execute();
+			$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+			return $result;
+	}
+
+
+	
 
 	/*[To delete records]*/
 	protected function deleteVote($vid)

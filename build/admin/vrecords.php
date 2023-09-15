@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['currentUser'])) {
+  header('Location: http://127.0.0.1:8080/auth/login/');
+  exit();
+}
+?>
+
 <nav class="bg-light nav_breadcrumb" aria-label="breadcrumb" >
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Admin</a></li>
@@ -18,9 +27,25 @@
             data-value="All"
             >All</button>
           </li>
-          <li class="nav-item  mr-4" id="pendingVoteStaMaria">
+          <li class="nav-item  mr-4" >
+            <button class="filter-item nav-link btn position-relative filterBtnNotActive"
+              id="stamaria"
+              type="button"
+              data-value="Golden Minds Colleges - Sta.Maria">Sta.Maria 
+              <span id="pendingVoteStaMaria">
+                
+              </span>
+            </button>
           </li>
-          <li class="nav-item" id="pendingVoteBalagtas">
+          <li class="nav-item">
+            <button class="filter-item nav-link btn position-relative filterBtnNotActive"
+            id="balagtas"
+            type="button"
+            data-value="Golden Minds Colleges - Balagtas">Balagtas 
+            <span id="pendingVoteBalagtas">
+                
+            </span>
+          </button>
           </li>
           <input type="hidden" id="filterActiveValue">
         </ul>
@@ -31,7 +56,7 @@
           <input type="text" class="form-control"
             id="searchInput" 
             list="candidateSuggestions"
-            placeholder="Type candidate name or referrence number..." 
+            placeholder="Type a referrence number..." 
             aria-label="Search Candidate"
             autocomplete="off" 
           />
@@ -47,13 +72,14 @@
       </div>  
     </div>
   </div>
-  <div class="content_body card mt-4">
-    <table class="table table-responsive table-striped">
+  <div class="content_body table-responsive card mt-4">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">VID</th>
           <th scope="col">SID</th>
-          <th scope="col">Amount Payment</th>
+          <th scope="col">CID</th>
+          <th scope="col">Payment</th>
           <th scope="col">Points</th>
           <th scope="col">Referrence no.</th>
           <th scope="col">Voters Email</th>

@@ -15,8 +15,9 @@ class Router
     //specify register path 
     $registerPath = [
       '/admin/dashboard/',
-      '/admin/candidate-management/',
       '/admin/voting-records/',
+      '/admin/candidate-management/',
+      '/admin/candidates-ranking/',
       '/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/',
       '/lakan-lakanbini-lakandyosa-candidates/sta-maria-campus/',
       '/lakan-lakanbini-lakandyosa-candidates/balagtas-campus/'
@@ -53,12 +54,16 @@ class Router
         $pageTitle .= 'Dashboard';
         break;
 
+      case '/admin/voting-records/':
+        $pageTitle .= 'Voting Records';
+        break;
+
       case '/admin/candidate-management/':
         $pageTitle .= 'Candidate Management';
         break;
 
-      case '/admin/voting-records/':
-        $pageTitle .= 'Voting Records';
+      case '/admin/candidates-ranking/':
+        $pageTitle .= 'Candidates Rankings';
         break;
 
       case '/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/':

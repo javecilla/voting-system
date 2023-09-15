@@ -11,6 +11,7 @@ namespace App\Models;
 class MManagement extends Database
 {
 	private array $response = [];
+	private int $status = 1; // Status 1 indicates verified votes
 
 	/* [to create new candidate record] */
 	protected function createCandidate(array $data)
@@ -99,8 +100,16 @@ class MManagement extends Database
 	/* [to get candidates data by id] */
 	protected function getCandidateData($thisId)
 	{
-		$stmt = $this->db()->prepare("SELECT * FROM candidate WHERE sid = :sid");
+		$stmt = $this->db()->prepare("
+			SELECT c.*, 
+      SUM(v.vote_points) AS total_vote_points,
+      COUNT(*) AS total_number_of_voters
+      FROM candidate c
+      INNER JOIN votes v ON c.sid = v.sid
+      WHERE c.sid = :sid AND v.vote_status = :status
+		");
 		$stmt->bindParam(':sid', $thisId, \PDO::PARAM_INT);
+		$stmt->bindParam(':status', $this->status, \PDO::PARAM_INT);
 		$stmt->execute();
 		$result = $stmt->fetch(\PDO::FETCH_ASSOC);
 		
@@ -108,16 +117,6 @@ class MManagement extends Database
 	}
 
 	/* [to get candidates data by search filter] */	
-	// protected function getDataBySearch($query) 
-	// {
- 	// 	$stmt = $this->db()->prepare("SELECT * FROM candidate WHERE CONCAT(cname, ' ', cid) LIKE :query");
-  //   $stmt->bindValue(':query', '%' . $query . '%', \PDO::PARAM_STR);
-  //   $stmt->execute();
-  //   $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    
-  //   return $result !== false ? $result : null;
-	// }
-
 	protected function getDataBySearch($inputQuery, $category = null, $sbranch = null)
 	{
 		$sql = "SELECT * FROM candidate WHERE CONCAT(cname, ' ', cid) LIKE :inputQuery";

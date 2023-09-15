@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['currentUser'])) {
+  header('Location: http://127.0.0.1:8080/auth/login/');
+  exit();
+}
+?>
+
 <nav class="bg-light nav_breadcrumb" aria-label="breadcrumb" >
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Admin</a></li>
@@ -61,8 +70,8 @@
     </div>
   </form>
 
-  <div class="content_body card mt-4">
-    <table class="table table-responsive">
+  <div class="content_body table-responsive card mt-4">
+    <table class="table">
       <thead>
         <tr>
           <th scope="col">SID</th>

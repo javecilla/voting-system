@@ -160,6 +160,7 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 			$mode = isset($_GET['mode']) ? $_GET['mode'] : 'view';
 			$csid = $_GET['sid'];
 			$candidate = VManagement::readDataById($csid);
+			//$totalVotePoints = VManagement::countVotePoints($csid);
 			if(isset($_GET['purpose']) && $_GET['purpose'] === "clientSide") { //client side modal
 				?> 
 					<input type="hidden" id="vSID" value="<?=$candidate['sid']?>" />
@@ -192,7 +193,9 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 					            <div class="ms-2 me-auto">
 					              <div class="fw-bold">Current Votes: </div><small>(Total number of votes)</small>
 					            </div>
-					           	<span class="badge badgeClient rounded-pill" id="numberOfVotes">0</span>
+					           	<span class="badge badgeClient rounded-pill" id="numberOfVotes">
+					           		<?=$candidate['total_number_of_voters'] > 0 ? $candidate['total_number_of_voters'] : '0';?>
+					           	</span>
 					          </li>
 					        </ul> 
   							</div>
@@ -203,7 +206,9 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						            <div class="fw-bold">Current Points: </div><small>(Total of vote points)
 						            &nbsp;&nbsp;&nbsp;&nbsp;</small>
 						          </div>
-						          <span class="badge badgeClient rounded-pill" id="votePoints">0</span>
+						          <span class="badge badgeClient rounded-pill" id="votePoints">
+						          	<?=$candidate['total_vote_points'] > 0 ? $candidate['total_vote_points'] : '0';?>
+						          </span>
 						        </li>
 						      </ul> 
 	  						</div>
@@ -389,7 +394,9 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 					            <div class="ms-2 me-auto">
 					              <div class="fw-bold">Current Votes: </div><small>(Total number of votes)</small>
 					            </div>
-					           	<span class="badge filterList rounded-pill" id="numberOfVotes">0</span>
+					           	<span class="badge filterList rounded-pill" id="numberOfVotes">
+					           		<?=$candidate['total_number_of_voters'] > 0 ? $candidate['total_number_of_voters'] : '0';?>
+					           	</span>
 					          </li>
 					        </ul> 
 					      </div>
@@ -400,7 +407,9 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 					              <div class="fw-bold">Current Points: </div><small>(Total of vote points)
 					              &nbsp;&nbsp;&nbsp;&nbsp;</small>
 					            </div>
-					           	<span class="badge filterList rounded-pill" id="votePoints">0</span>
+					           	<span class="badge filterList rounded-pill" id="votePoints">
+					           		<?=$candidate['total_vote_points'] > 0 ? $candidate['total_vote_points'] : '0';?>
+					           	</span>
 					          </li>
 					        </ul> 
 					      </div>
