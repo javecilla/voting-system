@@ -17,7 +17,7 @@ class MRanking extends Database
 	public function __contruct() {}
 
 	/*[Get the candidates ranking by specified branch]*/
-	protected function getCandidatesRanking($branchname, $category)
+	protected function getCandidatesRanking($category)
 	{
     $sql = "
       SELECT c.*, 
@@ -25,7 +25,7 @@ class MRanking extends Database
       COUNT(*) AS total_number_of_voters
       FROM candidate c
       LEFT JOIN votes v ON c.sid = v.sid
-      WHERE c.sbranch = :branchname AND v.vote_status = :status";
+      WHERE v.vote_status = :status";
 
     //check if category is not empty, then add the condition to the query
     if(!empty($category)) {
@@ -37,7 +37,6 @@ class MRanking extends Database
       ORDER BY total_vote_points DESC";
 
     $stmt = $this->db()->prepare($sql);
-    $stmt->bindParam(':branchname', $branchname, \PDO::PARAM_STR);
     $stmt->bindParam(':status', $this->status, \PDO::PARAM_INT);
 
     // Bind the category parameter if it's not empty

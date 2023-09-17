@@ -9,10 +9,10 @@ use App\Models\MRanking;
  */
 class VRanking extends MRanking
 {
-	public static function readRankingByBranch($branchname, $category)
+	public static function rankingCandidates($category) 
 	{
-		$branchRanking = new MRanking();
-		$result = $branchRanking->getCandidatesRanking($branchname, $category);
+		$ranking = new MRanking();
+		$result = $ranking->getCandidatesRanking($category);
 		return $result;
 	}
 }

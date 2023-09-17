@@ -2,7 +2,8 @@ jQuery(document).ready(function() {
 	const RENDER_PURPOSE = 'clientSide';
 	const BASE_BRANCH = "Golden Minds Colleges - Sta.Maria";
 
-	getAllCandidatesByBranch(BASE_BRANCH);
+	//getAllCandidatesByBranch(BASE_BRANCH);
+	getAllCandidatesData();
 
 	/**[To submit the votes] **/ 
 	$('#submitVote').on('click', (e) => {
@@ -83,7 +84,7 @@ jQuery(document).ready(function() {
 					                icon: 'success',
 					                confirmButtonText: 'Vote again this candidate',
 					                showCancelButton: true,
-        									cancelButtonText: "Done and exit",
+        									cancelButtonText: "Done and exit"
 					              }).then((result) => {
 					              	$('#selectPayment').val('');
 					                $('#equivalentVotePoints').val('');
@@ -164,12 +165,10 @@ jQuery(document).ready(function() {
 	$(document).on('click', '.voteBtn', (e) => {
 		e.preventDefault();
 		openModal('#modalVoteForm');
-		// const dataId = $('.candidateVoteSid').val();
 		const candidatesid = $(e.currentTarget).data('id');
-		const candidateCategory = $('.candidateBranch').val();
-		const candidateSbranch = $('.candidateCategory').val();
+		const candidateSbranch = $(e.currentTarget).data('branch');
+		const candidateCategory = $(e.currentTarget).data('category');
 		const view = "view";
-		 
 		$('.modal-title').text(`${candidateCategory} | ${candidateSbranch}`);
 		getCandidateDataById(candidatesid, view, RENDER_PURPOSE);
 	});
@@ -181,11 +180,12 @@ jQuery(document).ready(function() {
 		$('.filter-item').removeClass('filterActive').addClass('filterNotActive');
 		$(e.currentTarget).removeClass('filterNotActive').addClass('filterActive');
 		if(category === "All") {
-			getAllCandidatesByBranch(BASE_BRANCH);
+			//getAllCandidatesByBranch(BASE_BRANCH);
+			getAllCandidatesData();
 			$('#searchInput').addClass('displayNone');
 			$('#categoryFilterItemList').val('');
 		} else {
-			getCandidateDataByCategoryBranch(category, BASE_BRANCH, RENDER_PURPOSE);
+			getCandidateDataByCategory(category, RENDER_PURPOSE);
 			$('#searchInput').removeClass('displayNone');
 			$('#categoryFilterItemList').val(category);
 		}
@@ -199,9 +199,9 @@ jQuery(document).ready(function() {
 		//alert(category);
 		if(isEmpty(searchQuery)) {
       //back the original data
-      getCandidateDataByCategoryBranch(category, BASE_BRANCH, RENDER_PURPOSE);
+      getCandidateDataByCategory(category, RENDER_PURPOSE);
     } else {
-    	searchCandidateCategoryBranch(searchQuery, category, BASE_BRANCH);
+    	searchCandidateCategory(searchQuery, category);
     }
 	});
 });

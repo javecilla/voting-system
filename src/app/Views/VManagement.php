@@ -27,10 +27,10 @@ class VManagement extends MManagement
     return $result;
   }
 
-  public static function filterDataBySearch($inputQuery, $queryCategory, $queryBranch)
+  public static function filterDataBySearch($inputQuery, $queryCategory)
   {
     $searchData = new MManagement();
-    $result = $searchData->getDataBySearch($inputQuery, $queryCategory, $queryBranch);
+    $result = $searchData->getDataBySearch($inputQuery, $queryCategory);
 
     return $result;
   }
@@ -51,10 +51,10 @@ class VManagement extends MManagement
     return $result;
   }
 
-  public static function getAllDataCategoryBranch($fquery, $squery) 
+  public static function getAllDataCategoryCard($squery) 
   {
     $branchData = new MManagement();
-    $result = $branchData->getAllDataByCategoryBranch($fquery, $squery);
+    $result = $branchData->getAllDataByCategoryCard($squery);
 
     return $result;
   }

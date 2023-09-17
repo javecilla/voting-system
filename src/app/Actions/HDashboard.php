@@ -10,21 +10,18 @@ if(isset($_GET['action']) && $_GET['action'] === "read") {
 	$task = isset($_GET['task']) ? $_GET['task'] : '';
 	switch($task) {
 		case 'getPendingVotes':
-			$branch = isset($_GET['branchname']) ? $_GET['branchname'] : '';
-			$pendingVotes = VVote::readPendingVotes($branch);
-			echo !empty($pendingVotes) ? $pendingVotes : "No data found";
+			$pendingVotes = VVote::readAllPendingVotes();
+			echo !empty($pendingVotes) ? $pendingVotes : "0";
 			break;
 
 		case 'getNumberOfVoters':
-			$branch = isset($_GET['branchname']) ? $_GET['branchname'] : '';
-			$numberOfVoters = VVote::readNumberOfVoters($branch);
-			echo !empty($numberOfVoters) ? $numberOfVoters : "No data found";
+			$numberOfVoters = VVote::readNumberOfVoters();
+			echo !empty($numberOfVoters) ? $numberOfVoters : "0";
 			break;
 
 		case 'getTotalAmmountPayment':
-			$branch = isset($_GET['branchname']) ? $_GET['branchname'] : '';
-			$result = VVote::readTotalAmmountPayment($branch);
-			echo !empty($result) ? $result[0]['total_ammount'] : "No data found";
+			$result = VVote::readTotalAmmountPayment();
+			echo !empty($result) ? $result[0]['total_ammount'] : "0";
 			break;
 
 		default:

@@ -85,12 +85,10 @@ class MManagement extends Database
 	} 
 
 	/* [to get all candidates records for specific branch and category] */ 
-	protected function getAllDataByCategoryBranch($fquery, $squery) 
+	protected function getAllDataByCategoryCard($squery) 
 	{
-		$stmt = $this->db()->prepare("SELECT * FROM candidate WHERE category = :category AND 
-			sbranch = :sbranch  ORDER BY sid DESC");
-		$stmt->bindParam(':category', $fquery, \PDO::PARAM_STR);
-		$stmt->bindParam(':sbranch', $squery, \PDO::PARAM_STR);
+		$stmt = $this->db()->prepare("SELECT * FROM candidate WHERE category = :category ORDER BY sid DESC");
+		$stmt->bindParam(':category', $squery, \PDO::PARAM_STR);
 		$stmt->execute();
 		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		
@@ -117,22 +115,21 @@ class MManagement extends Database
 	}
 
 	/* [to get candidates data by search filter] */	
-	protected function getDataBySearch($inputQuery, $category = null, $sbranch = null)
+	protected function getDataBySearch($inputQuery, $category = null)
 	{
 		$sql = "SELECT * FROM candidate WHERE CONCAT(cname, ' ', cid) LIKE :inputQuery";
 		//check if this category is set or null
-		if($category !== null && $sbranch !== null) {
-		  //hindi siya null, ibig sabihin si branch and category ay may laman
+		if($category !== null) {
+		  //hindi siya null, ibig sabihin si sbranch and category ay may laman
 		  //then this query condition will add
-		  $sql .= " AND category = :category AND sbranch = :sbranch";
+		  $sql .= " AND category = :category";
 		}
 
 		$stmt = $this->db()->prepare($sql);
 		$stmt->bindValue(':inputQuery', '%' . $inputQuery . '%', \PDO::PARAM_STR);
 
-		if($sbranch !== null) {
+		if($category !== null) {
 		  $stmt->bindParam(':category', $category, \PDO::PARAM_STR);
-		  $stmt->bindParam(':sbranch', $sbranch, \PDO::PARAM_STR);
 		}
 
 		$stmt->execute();

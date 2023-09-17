@@ -1,12 +1,26 @@
-  function getCandidateByRank(branchname, category) {
+  function getCandidatesRank() {
     $.ajax({
       url: "../../src/app/Actions/HCandidatesRanking.php",
       method: "GET",
       dataType: "html",
       data: { 
         action: 'read', 
-        task: 'rankBybranch',
-        branchname: branchname,
+        task: 'candidatesRank'
+      },
+      success: (data) => {
+        $('#tbodyCandidatesRanking').html(data);
+      }
+    });
+  }
+
+  function getCandidatesRankByCategory(category) {
+    $.ajax({
+      url: "../../src/app/Actions/HCandidatesRanking.php",
+      method: "GET",
+      dataType: "html",
+      data: { 
+        action: 'read', 
+        task: 'rankByCategory',
         category: category
       },
       success: (data) => {
@@ -15,8 +29,7 @@
     });
   }
 
-
-  function getAllVoteRecordsBySearch(searchQuery, branchname) {
+  function getAllVoteRecordsBySearch(searchQuery) {
     $.ajax({
       url: "../../src/app/Actions/HClientVotes.php",
       method: "GET",
@@ -24,8 +37,7 @@
       data: { 
         action: 'read', 
         task: 'searchFilter',
-        searchQuery: searchQuery,
-        branchname: branchname
+        searchQuery: searchQuery
       },
       success: (data) => {
         $('#tbodyVotesRecords').html(data);
@@ -34,23 +46,18 @@
   }
 
   /*[To fetch number of pending vote]*/
-  function getTotalPendingVotes(branchname) {
+  function getTotalPendingVotes() {
     // return the total number of pedning votes in two branch
     $.ajax({
       url: "../../src/app/Actions/HClientVotes.php",
       method: "GET",
       dataType: "html",
       data: { 
-        branchname: branchname,
         action: 'read', 
         task: 'pendingVotes'
       },
       success: (data) => {
-        if(branchname === "Golden Minds Colleges - Sta.Maria") {
-          $('#pendingVoteStaMaria').html(data);
-        } else if (branchname === "Golden Minds Colleges - Balagtas") {
-           $('#pendingVoteBalagtas').html(data);
-        }
+        $('#allpendingVotes').html(data);
       }
     });
   }
@@ -102,7 +109,7 @@
     });
   }
 
-  function searchCandidateCategoryBranch(inputSearch, queryTwo, queryThree) {
+  function searchCandidateCategory(inputSearch, scategory) {
     $.ajax({
       url: "../../src/app/Actions/HCandidateManagement.php",
       method: "GET",
@@ -110,8 +117,7 @@
       data: { 
         action: 'read', 
         inputSearch: inputSearch,
-        candidateCategory: queryTwo,
-        candidateBranch: queryThree,
+        scategory: scategory,
         category: 'searchFilterTwo'
       },
       success: (data) => {
@@ -120,16 +126,15 @@
     });
   }
 
-  /**[Fetch ALl Candidate By branch] [NOT FINISH YET]**/ 
-  function getAllCandidatesByBranch(branchname, pagename) {
+  /**[Fetch ALl Candidate DATA] [Modified]**/ 
+  function getAllCandidatesData() {
     $.ajax({
       url: "../../src/app/Actions/HCandidateManagement.php",
       method: "GET",
       dataType: "html",
       data: { 
         action: 'read', 
-        target: branchname,
-        category: 'byBranchFilter'
+        category: 'allCandidates'
       },
       success: (data) => {
         $('#candidateList_card').html(data);
@@ -155,17 +160,16 @@
   }
 
   /**[Fetch ALl Candidate By Category and Branch/Campus]**/
-  function getCandidateDataByCategoryBranch(firstQuery, secondQuery, purpose) {
+  function getCandidateDataByCategory(scategory, purpose) {
     $.ajax({
       url: "../../src/app/Actions/HCandidateManagement.php",
       method: "GET",
       dataType: "html",
       data: { 
         action: 'read', 
-        fcategory: firstQuery,
-        scategory: secondQuery, 
+        scategory: scategory, 
         purpose: purpose, 
-        category: 'byCategoryBranchFilter'
+        category: 'byCategoryFilterCard'
       },
       success: (data) => {
         if(purpose === 'adminSide') {
@@ -206,13 +210,8 @@
           $('#mbodyCandidatesEdit').html(data);
         }
       }
-    }).done((response) => {
-      console.log(response);
-    }).fail((xhr, status, error) => {
-      console.log(xhr, status, error);
     });
   }
-
 
   function openModal(modalId) {
     $(modalId).attr('data-bs-backdrop', 'static').modal('show');

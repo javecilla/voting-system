@@ -2,7 +2,8 @@
 session_start();
 
 if(!isset($_SESSION['currentUser'])) {
-  header('Location: http://127.0.0.1:8080/auth/login/');
+  //header('Location: http://127.0.0.1:8080/auth/login/');
+  header('Location: https://portal.goldenmindsbulacan.com/auth/login/');
   exit();
 }
 ?>
@@ -21,33 +22,16 @@ if(!isset($_SESSION['currentUser'])) {
       <div class="col-lg-4">
         <ul class="nav nav-pills">
           <li class="nav-item mr-4">
-            <button class="filter-item nav-link btn btn-primary filterBtnActive"
+            <button class="filter-item nav-link btn btn-light position-relative filterBtnActive"
             type="button" 
             aria-current="page"
             data-value="All"
-            >All</button>
-          </li>
-          <li class="nav-item  mr-4" >
-            <button class="filter-item nav-link btn position-relative filterBtnNotActive"
-              id="stamaria"
-              type="button"
-              data-value="Golden Minds Colleges - Sta.Maria">Sta.Maria 
-              <span id="pendingVoteStaMaria">
-                
-              </span>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="filter-item nav-link btn position-relative filterBtnNotActive"
-            id="balagtas"
-            type="button"
-            data-value="Golden Minds Colleges - Balagtas">Balagtas 
-            <span id="pendingVoteBalagtas">
+            >All
+            <span id="allpendingVotes"> <!--pendingVoteStaMaria-->
                 
             </span>
           </button>
           </li>
-          <input type="hidden" id="filterActiveValue">
         </ul>
       </div>
  

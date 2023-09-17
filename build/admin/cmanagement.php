@@ -3,6 +3,7 @@ session_start();
 
 if(!isset($_SESSION['currentUser'])) {
   header('Location: http://127.0.0.1:8080/auth/login/');
+  //header('Location: https://portal.goldenmindsbulacan.com/auth/login/');
   exit();
 }
 ?>
@@ -45,24 +46,13 @@ if(!isset($_SESSION['currentUser'])) {
       <div class="col-lg-12 d-flex justify-content-center ">
         <div class="btn-group" role="group">
           <span class="btn filterList noEvents"><i class="fas fa-filter"></i>&nbsp;Filter</span>
-          <div class="btn-group">
-            <button type="button" class="filterAll btn btn-light filterDropdown">All</button>
-          </div>
           <!-- filter by category -->
           <div class="btn-group" role="group">
             <select id="filterCategory">
-              <option value="" selected>Category</option>
+              <option value="" selected>All</option>
               <option value="Lakan">Lakan</option>
               <option value="Lakanbini">Lakanbini</option> 
               <option value="Lakandyosa">Lakandyosa</option>
-            </select>
-          </div>
-          <!-- filter by branch -->
-          <div class="btn-group" role="group">
-            <select id="filterBranch" disabled>
-              <option value="" selected>Branch / Campus</option>
-              <option value="Golden Minds Colleges - Sta.Maria">Sta.Maria</option>
-              <option value="Golden Minds Colleges - Balagtas">Balagtas</option>
             </select>
           </div>
         </div>
@@ -170,7 +160,10 @@ if(!isset($_SESSION['currentUser'])) {
           <button type="button" onclick="closeModal('#addNewCandidateModal')" 
             class="btn btn-secondary"> Cancel</button>
           <button  type="button" id="addNewCandidate"
-            class="btn btn-primary"> <i class="fa-solid fa-arrow-up-from-bracket"></i>&nbsp;Upload
+            class="btn btn-primary">
+            <i class="fas fa-spinner fa-spin loading-spinner" style="display: none;"></i> 
+            <i class="fa-solid fa-arrow-up-from-bracket upload_icon"></i>&nbsp;
+            Upload
           </button>
         </div>
       </div>

@@ -18,9 +18,7 @@ class Router
       '/admin/voting-records/',
       '/admin/candidate-management/',
       '/admin/candidates-ranking/',
-      '/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/',
-      '/lakan-lakanbini-lakandyosa-candidates/sta-maria-campus/',
-      '/lakan-lakanbini-lakandyosa-candidates/balagtas-campus/'
+      '/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/candidates/'
     ];
 
     if($cMethod === $method) {
@@ -66,16 +64,8 @@ class Router
         $pageTitle .= 'Candidates Rankings';
         break;
 
-      case '/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/':
+      case '/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/candidates/':
         $pageTitle .= 'Golden Minds Colleges';
-        break;
-
-      case '/lakan-lakanbini-lakandyosa-candidates/sta-maria-campus/':
-        $pageTitle .= 'GMC - Sta. Maria Campus';
-        break;
-
-      case '/lakan-lakanbini-lakandyosa-candidates/balagtas-campus/':
-        $pageTitle .= 'GMC - Balagtas Campus';
         break;
 
       default:

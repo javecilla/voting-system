@@ -3,6 +3,7 @@ session_start();
 
 if(!isset($_SESSION['currentUser'])) {
   header('Location: http://127.0.0.1:8080/auth/login/');
+  //header('Location: https://portal.goldenmindsbulacan.com/auth/login/');
   exit();
 }
 ?>
@@ -25,20 +26,8 @@ if(!isset($_SESSION['currentUser'])) {
           <div class="card-block">
             <h4 class="m-b-20 "><b>Pending Votes</b></h4>
             <h2 class="text-left"><i class="fas fa-user-clock fs-1"></i>
-              <span class="f-right" id="totalAllPending">
-                
-              </span>
+              <span class="f-right" id="totalAllPending"></span>
             </h2>
-            <p class="m-b-0">Sta.Maria
-              <span class="f-right" id="pendingStamaria">
-                
-              </span>
-            </p>
-            <p class="m-b-0">Balagtas
-              <span class="f-right" id="pendingBalagtas">
-                
-              </span>
-            </p>
           </div>
         </div>
       </div>
@@ -50,12 +39,6 @@ if(!isset($_SESSION['currentUser'])) {
             <h2 class="text-left"><i class="fas fa-users fs-1"></i>
               <span class="f-right" id="totalVotersAll"></span>
             </h2>
-            <p class="m-b-0">Sta.Maria
-              <span class="f-right" id="totalVotersStamaria"></span>
-            </p>
-            <p class="m-b-0">Balagtas
-              <span class="f-right" id="totalVotersBalagtas"></span>
-            </p>
           </div>
         </div>
       </div>
@@ -67,12 +50,6 @@ if(!isset($_SESSION['currentUser'])) {
             <h2 class="text-left"><span class="fs-1">₱</span>
               <span class="f-right" id="totalAmmountAll"></span>
             </h2>
-            <p class="m-b-0">Sta.Maria
-              <span class="f-right" id="totalAmmountStamaria"></span>
-            </p>
-            <p class="m-b-0">Balagtas
-              <span class="f-right" id="totalAmmountBalagtas"></span>
-            </p>
           </div>
         </div>
       </div>
@@ -82,91 +59,57 @@ if(!isset($_SESSION['currentUser'])) {
 
 <script type="text/javascript">
   jQuery(document).ready(function() {
-    const WALA = "";
-    const STA_MARIA = "Golden Minds Colleges - Sta.Maria";
-    const BALAGTAS = "Golden Minds Colleges - Balagtas";
-
     trackCurrentURI();
-
-    getPendingVotes(WALA);
-    getPendingVotes(STA_MARIA);
-    getPendingVotes(BALAGTAS);
-
-    getTotalVoters(WALA);
-    getTotalVoters(STA_MARIA);
-    getTotalVoters(BALAGTAS);
-
-    getTotalAmmount(WALA);
-    getTotalAmmount(STA_MARIA);
-    getTotalAmmount(BALAGTAS);
+    getPendingVotes();
+    getTotalVoters();
+    getTotalAmmount();
   });
 </script>
 
 <script src="/resources/custom/script/functions.js" defer></script>
 
 <script defer>
-  function getTotalAmmount(branchname) {
+  function getTotalAmmount() {
     $.ajax({
       url: "../../src/app/Actions/HDashboard.php",
       method: "GET",
       dataType: "html",
       data: { 
         task: 'getTotalAmmountPayment',
-        action: 'read',
-        branchname: branchname
+        action: 'read'
       },
       success: (data) => {
-        if(branchname === "Golden Minds Colleges - Sta.Maria") {
-          $('#totalAmmountStamaria').text(data);
-        } else if(branchname === "Golden Minds Colleges - Balagtas"){
-          $('#totalAmmountBalagtas').text(data);
-        } else {
-          $('#totalAmmountAll').text(data);
-        } 
+        $('#totalAmmountAll').text(data);
       }
     });
   }
 
-  function getTotalVoters(branchname) {
+  function getTotalVoters() {
     $.ajax({
       url: "../../src/app/Actions/HDashboard.php",
       method: "GET",
       dataType: "html",
       data: { 
         task: 'getNumberOfVoters',
-        action: 'read',
-        branchname: branchname
+        action: 'read'
       },
       success: (data) => {
-        if(branchname === "Golden Minds Colleges - Sta.Maria") {
-          $('#totalVotersStamaria').text(data);
-        } else if(branchname === "Golden Minds Colleges - Balagtas"){
-          $('#totalVotersBalagtas').text(data);
-        } else {
-          $('#totalVotersAll').text(data);
-        } 
+        $('#totalVotersAll').text(data);
       }
     });
   }
 
-  function getPendingVotes(branchname) {
+  function getPendingVotes() {
     $.ajax({
       url: "../../src/app/Actions/HDashboard.php",
       method: "GET",
       dataType: "html",
       data: { 
         task: 'getPendingVotes',
-        action: 'read',
-        branchname: branchname
+        action: 'read'
       },
       success: (data) => {
-        if(branchname === "Golden Minds Colleges - Sta.Maria") {
-          $('#pendingStamaria').text(data);
-        } else if(branchname === "Golden Minds Colleges - Balagtas"){
-          $('#pendingBalagtas').text(data);
-        } else {
-          $('#totalAllPending').text(data);
-        } 
+        $('#totalAllPending').text(data);
       }
     });
   }

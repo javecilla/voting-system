@@ -1,5 +1,9 @@
 /*===================CANDIDATE MANAGEMENT CUSTOM STYLE========================*/
-  nav.nav_breadcrumb {
+body {
+  overflow-x: hidden;
+}
+
+ nav.nav_breadcrumb {
     --bs-breadcrumb-divider: '>'; 
     padding-top: 25px; 
     padding-bottom: 7px; 

@@ -6,16 +6,16 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0"/>
-	<meta name="robots" content="noindex, nofollow">
-	<meta name="googlebot" content="noindex, nofollow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
-	<meta name="bingbot" content="noindex, nofollow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
+	<meta name="robots" content="index, follow">
+	<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
+	<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
 
 	<link rel="shortcut icon" type="image/png" sizes="16x16" href="/resources/images/favicon.png" />
 	<link rel="apple-touch-icon" type="image/png" sizes="16x16" href="/resources/images/favicon.png" />
 
 	<!-- =========StyleSheets ========= -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" media="screen" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" media="screen" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.20/dist/sweetalert2.min.css" rel="stylesheet"/>
 	
 	<link href="/assets/libs/aos/aos.css" rel="stylesheet"/>
@@ -27,21 +27,21 @@
 	<link href="/resources/custom/stylesheet/app.css" rel="stylesheet" defer/>
 	<link href="/resources/custom/stylesheet/main.css" rel="stylesheet" defer/>
 
-	 	<!-- ========= Scripts ========= -->
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.20/dist/sweetalert2.all.min.js"></script>
+	<!-- ========= Scripts ========= -->
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.20/dist/sweetalert2.all.min.js"></script>
 
 
-  <script src="/assets/plugins/purecounter/purecounter_vanilla.js"></script>
-  <script src="/assets/libs/aos/aos.js"></script>
-  <!-- <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-  <script src="/assets/tmp/glightbox/js/glightbox.min.js"></script>
-  <script src="/assets/tmp/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="/assets/plugins/swiper/swiper-bundle.min.js"></script>
-  <!-- <script src="/assets/plugins/typed.js/typed.min.js"></script> -->
-  <script src="/assets/plugins/waypoints/noframework.waypoints.js"></script>
-  <script src="/resources/custom/script/app.js" defer></script>
+	<script src="/assets/plugins/purecounter/purecounter_vanilla.js"></script>
+	<script src="/assets/libs/aos/aos.js"></script>
+	<!-- <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+	<script src="/assets/tmp/glightbox/js/glightbox.min.js"></script>
+	<script src="/assets/tmp/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="/assets/plugins/swiper/swiper-bundle.min.js"></script>
+	<!-- <script src="/assets/plugins/typed.js/typed.min.js"></script> -->
+	<script src="/assets/plugins/waypoints/noframework.waypoints.js"></script>
+	<script src="/resources/custom/script/app.js" defer></script>
 </head>
 <body>
 	<!-- ======= Mobile nav toggle button ======= -->
@@ -73,7 +73,7 @@
 	        	</a>
 	        </li>
 	        <li>
-	        	<a href="/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/" target="_blank" class="nav-link sb_upages">
+	        	<a href="/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/candidates/" target="_blank" class="nav-link sb_upages">
 	        		<i class="fas fa-pager"></i> <span>User Pages</span>
 	        	</a>
 	        </li>

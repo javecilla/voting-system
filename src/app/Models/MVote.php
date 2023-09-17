@@ -78,33 +78,23 @@ class MVote extends Database
 		$stmt = $this->db()->prepare("SELECT v.*, c.* 
 			FROM votes v
 			INNER JOIN candidate c ON v.sid = c.sid
-			ORDER BY vote_status ASC");
+			ORDER BY v.vote_datetime AND v.vote_status = :vstatus DESC");
+		$stmt->bindParam(':vstatus', $this->pending, \PDO::PARAM_INT);
+
 		$stmt->execute();
 		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		
 		return $result !== false ? $result : null;
 	}
 
-	protected function getDataBySearch($inputQuery, $branchname = "")
+	protected function getDataBySearch($inputQuery)
 	{
-		$sql = "SELECT v.*, c.* 
+		$stmt = $this->db()->prepare("SELECT v.*, c.* 
 		FROM votes v 
 		INNER JOIN candidate c ON v.sid = c.sid
-		WHERE CONCAT(v.referrence_no) LIKE :inputQuery";
-		//check if this category is set or null
-		if($branchname !== "") {
-		  //hindi siya null, ibig sabihin si branch and category ay may laman
-		  //then this query condition will add
-		  $sql .= " AND c.sbranch = :branchname";
-		}
-
-		$stmt = $this->db()->prepare($sql);
+		WHERE CONCAT(v.referrence_no) LIKE :inputQuery");
 		$stmt->bindValue(':inputQuery', '%' . $inputQuery . '%', \PDO::PARAM_STR);
-
-		if($branchname !== "") {
-		  $stmt->bindParam(':branchname', $branchname, \PDO::PARAM_STR);
-		}
-
+		
 		$stmt->execute();
 		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -128,78 +118,47 @@ class MVote extends Database
 	}
 
 	/*[To get pending votes by branch]*/
-	protected function getTotalPendingVotes($branchname)
+	protected function getTotalPendingVotes()
 	{
-		$sql = "
+		$stmt = $this->db()->prepare("SELECT COUNT(*)
+			FROM votes v
+			INNER JOIN candidate c ON v.sid = c.sid
+			WHERE v.vote_status = :status
+		");
+		$stmt->bindParam(':status', $this->pending, \PDO::PARAM_INT);
+		$stmt->execute();
+		$count = $stmt->fetchColumn();
+		return $count; 
+	}
+
+	protected function getTotalNumberOfVoters()
+	{
+		$stmt = $this->db()->prepare("
 			SELECT COUNT(*)
 			FROM votes v
 			INNER JOIN candidate c ON v.sid = c.sid
-			WHERE v.vote_status = :status";
-
-			if(!empty($branchname)) {
-				$sql .= " AND c.sbranch = :branch";
-			}
-
-			$stmt = $this->db()->prepare($sql);
-			$stmt->bindParam(':status', $this->pending, \PDO::PARAM_INT);
-
-			if(!empty($branchname)) {
-				$stmt->bindParam(':branch', $branchname, \PDO::PARAM_STR);
-			}
-
-			$stmt->execute();
-			$count = $stmt->fetchColumn();
-			return $count; 
+			WHERE v.vote_status = :status
+		");
+		$stmt->bindParam(':status', $this->verfied, \PDO::PARAM_INT);
+		$stmt->execute();
+		$count = $stmt->fetchColumn();
+		return $count;
 	}
 
-	protected function getTotalNumberOfVoters($branchname)
+	protected function getTotalAmmountPayment()
 	{
-		$sql = "
-			SELECT COUNT(*)
-			FROM votes v
-			INNER JOIN candidate c ON v.sid = c.sid";
-
-			if(!empty($branchname)) {
-				$sql .= " AND c.sbranch = :branch";
-			}
-
-			$stmt = $this->db()->prepare($sql);
-			if(!empty($branchname)) {
-				$stmt->bindParam(':branch', $branchname, \PDO::PARAM_STR);
-			}
-
-			$stmt->execute();
-			$count = $stmt->fetchColumn();
-			return $count;
-	}
-
-	protected function getTotalAmmountPayment($branchname)
-	{
-		$sql = "
+		$stmt = $this->db()->prepare("
 			SELECT 
 			SUM(v.amt_payment) AS total_ammount
 			FROM votes v
 			INNER JOIN candidate c ON v.sid = c.sid
-			WHERE v.vote_status = :status";
-
-			if(!empty($branchname)) {
-				$sql .= " AND c.sbranch = :branch";
-			}
-
-			$stmt = $this->db()->prepare($sql);
-			$stmt->bindParam(':status', $this->verfied, \PDO::PARAM_INT);
-
-			if(!empty($branchname)) {
-				$stmt->bindParam(':branch', $branchname, \PDO::PARAM_STR);
-			}
-
-			$stmt->execute();
-			$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-			return $result;
+			WHERE v.vote_status = :status
+		");
+		$stmt->bindParam(':status', $this->verfied, \PDO::PARAM_INT);
+		$stmt->execute();
+		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		return $result;
 	}
-
-
-	
 
 	/*[To delete records]*/
 	protected function deleteVote($vid)
@@ -209,9 +168,8 @@ class MVote extends Database
 		if(!$stmt->execute()) {
 			$this->response = ['success' => false, 'message' => 'Failed to delete vote: ' . $stmt->errorInfo()[2]];
 		}
-
 		$this->response = ['success' => true, 'message' => 'Vote Deleted successfully!'];
-
+		
 		return $this->response;
 	}
 

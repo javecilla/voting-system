@@ -107,7 +107,7 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 					  <th scope="row" style="width: 80px;">00<?=$row['sid']?></th>
 					  <th scope="row" style="width: 80px;"><?=$row['cid']?></th>
 					  <td scope="row" style="width: 110px;">
-					    <img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
+					    <img decoding="async"  src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
 					    alt="Candidate Photo" class="img-thumbnail img-responsive" />
 					  </td>
 					  <td scope="row"><?=$row['cname']?></td>
@@ -149,9 +149,7 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						  </div>
 					 	</td>
 					</tr>
-
-					<?php
-				
+				<?php
 			endforeach;	
 			break;
 		
@@ -168,7 +166,7 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						<div class="row g-0 p-1"> 
 							<div class="col-md-5 mb-3 noEvents">
 								<center>
-	      					<img src="/src/app/Storage/candidates/<?=$candidate['imgname']?>.<?=$candidate['imgext']?>" 
+	      					<img decoding="async" src="/src/app/Storage/candidates/<?=$candidate['imgname']?>.<?=$candidate['imgext']?>" 
 				        	alt="Candidate Photo" class="img-fluid rounded-start" width="350" />
 				        </center>
     					</div>
@@ -212,10 +210,8 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						        </li>
 						      </ul> 
 	  						</div>
-    					</div>
-						</div>
-						<div class="row g-0 p-1">
-	  					<div class="instruction alert alert-warning d-flex align-items-center" role="alert">
+	  						<div class="row mt-2 g-0">
+	  							<div class="instruction alert alert-warning d-flex align-items-center" role="alert">
 								<small class="text-justify">
 									For a smooth and precise voting experience, kindly adhere to the following guidelines:
 									<ol>
@@ -228,6 +224,11 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 									Your cooperation in following these steps ensures a seamless voting process.
 								</small>
 							</div>
+	  						</div>
+    					</div>
+						</div>
+						<div class="row g-0 p-1">
+	  					
 							<div class="votingInput">
 								<div class="row g-0 p-1">
 								 	<div class="col-md-8 p-2">
@@ -299,9 +300,9 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 			 	<div class="card mb-3 cardAuto">
   				<div class="row g-0 p-1">
     				<div class="col-md-4">
-      				<img src="/src/app/Storage/candidates/<?=$candidate['imgname']?>.<?=$candidate['imgext']?>" 
+      				<img decoding="async" src="/src/app/Storage/candidates/<?=$candidate['imgname']?>.<?=$candidate['imgext']?>" 
 			        	alt="Candidate Photo" class="img-fluid rounded-start file-upload-image-modal" width="350" />
-			        	<input type="hidden" value="<?=$candidate['sid']?>" id="csidModal"/>
+			        <input type="hidden" value="<?=$candidate['sid']?>" id="csidModal"/>
     				</div>
 				    <div class="col-md-8 ml-3">
 				    	<div class="row mb-1">
@@ -418,9 +419,8 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 				    </div>
 				  </div>
 				</div>
-			<?php
+				<?php
 			}
-			
 			break;
 
 		case 'searchFilter':
@@ -430,10 +430,10 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 					foreach($result as $searchData):
 						?>
 							<tr>
-					      <th scope="row" style="width: 80px;">00<?=$searchData['sid']?></th>
-					      <th scope="row" style="width: 80px;"><?=$searchData['cid']?></th>
+					      <td scope="row" style="width: 80px;">00<?=$searchData['sid']?></td>
+					      <td scope="row" style="width: 80px;"><?=$searchData['cid']?></td>
 					      <td scope="row" style="width: 110px;">
-					        <img src="/src/app/Storage/candidates/<?=$searchData['imgname']?>.<?=$searchData['imgext']?>" 
+					        <img decoding="async" src="/src/app/Storage/candidates/<?=$searchData['imgname']?>.<?=$searchData['imgext']?>" 
 					        	alt="Candidate Photo" class="img-thumbnail img-responsive" />
 					      </td>
 					      <td scope="row"><?=$searchData['cname']?></td>
@@ -484,7 +484,7 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 
 		case 'searchFilterTwo':
 			$inputSearch = filter_input(INPUT_GET, 'inputSearch', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			$result = VManagement::filterDataBySearch($inputSearch, $_GET['candidateCategory'], $_GET['candidateBranch']);
+			$result = VManagement::filterDataBySearch($inputSearch, $_GET['scategory']);
 			if(is_array($result)) {
 				foreach($result as $row):
 					?>
@@ -520,9 +520,9 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						      </div>
 						    </div>
 						  </div>
+						</div>
 					</div>
-					</div>
-				<?php
+					<?php
 				endforeach;
 			} else {
 					echo "<h4>No records found.</h4>";
@@ -534,10 +534,10 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 			foreach($result as $row):
 				?>
 					<tr>
-					  <th scope="row" style="width: 80px;">00<?=$row['sid']?></th>
-					  <th scope="row" style="width: 80px;"><?=$row['cid']?></th>
+					  <td scope="row" style="width: 80px;">00<?=$row['sid']?></td>
+					  <td scope="row" style="width: 80px;"><?=$row['cid']?></td>
 					  <td scope="row" style="width: 110px;">
-					    <img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
+					    <img decoding="async" src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
 					    alt="Candidate Photo" class="img-thumbnail img-responsive" />
 					  </td>
 					  <td scope="row"><?=$row['cname']?></td>
@@ -583,15 +583,18 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 			endforeach;	
 			break;
 
-		case 'byBranchFilter':
-			$result = VManagement::getAllDataBranch($_GET['target']);
+		case 'allCandidates':
+			$result = VManagement::readAllData();
 			foreach($result as $row):
 				?>
 					<div class="col">
+						<div class="card-header">
+						  <small class="text-uppercase"><?=$row['sbranch']?></small>
+						</div>
 						<div class="card mb-3" data-aos="fade-up">
 						  <div class="row g-0 ">
 						    <div class="col-md-4">
-						    	<img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
+						    	<img decoding="async" src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
 										alt="Candidate Photo" class="img-fluid rounded-start" 
 									/>
 						    </div>
@@ -613,7 +616,12 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						        <input type="hidden" class="candidateVoteSid" value="<?=$row['sid']?>" />
 						        <input type="hidden" class="candidateCategory" value="<?=$row['category']?>"/>
 						        <input type="hidden" class="candidateBranch" value="<?=$row['sbranch']?>"/>
-										<button type="button" data-id="<?=$row['sid']?>" class="voteBtn btn btn-light mt-2" style="background-color: #f3e3d3!important;">
+										<button type="button" 
+											data-id="<?=$row['sid']?>"
+											data-branch="<?=$row['sbranch']?>"
+											data-category="<?=$row['category']?>"
+											class="voteBtn btn btn-light mt-2" 
+											style="background-color: #f3e3d3!important;">
 										    <i class="fas fa-thumbs-up"></i>&nbsp;Vote
 										</button>
 						      </div>
@@ -625,13 +633,16 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 			endforeach;	
 			break;	
 
-		case 'byCategoryBranchFilter':
-			$result = VManagement::getAllDataCategoryBranch($_GET['fcategory'], $_GET['scategory']);
+		case 'byCategoryFilterCard':
+			$result = VManagement::getAllDataCategoryCard($_GET['scategory']);
 			foreach($result as $row):
 				if(isset($_GET['purpose']) && $_GET['purpose'] === 'clientSide') { //render it in client side
 					?>
 						<div class="col">
 							<div class="card mb-3">
+								<div class="card-header">
+						  		<small class="text-uppercase"><?=$row['sbranch']?></small>
+								</div>
 							  <div class="row g-0 ">
 							    <div class="col-md-4">
 							    	<img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
@@ -656,7 +667,11 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 							        <input type="hidden" class="candidateVoteSid" value="<?=$row['sid']?>" />
 							        <input type="hidden" class="candidateCategory" value="<?=$row['category']?>"/>
 							        <input type="hidden" class="candidateBranch" value="<?=$row['sbranch']?>"/>
-											<button type="button" data-id="<?=$row['sid']?>" class="voteBtn btn btn-light mt-2" style="background-color: #f3e3d3!important;">
+											<button type="button" 
+											data-id="<?=$row['sid']?>"
+											data-branch="<?=$row['sbranch']?>"
+											data-category="<?=$row['category']?>"
+											class="voteBtn btn btn-light mt-2" style="background-color: #f3e3d3!important;">
 											    <i class="fas fa-thumbs-up"></i>&nbsp;Vote
 											</button>
 							      </div>
@@ -668,10 +683,10 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 				} else { //render by admin side
 					?>
 						<tr>
-						  <th scope="row" style="width: 80px;">00<?=$row['sid']?></th>
-						  <th scope="row" style="width: 80px;"><?=$row['cid']?></th>
+						  <td scope="row" style="width: 80px;">00<?=$row['sid']?></td>
+						  <td scope="row" style="width: 80px;"><?=$row['cid']?></td>
 						  <td scope="row" style="width: 110px;">
-						    <img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
+						    <img decoding="async" src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
 						    alt="Candidate Photo" class="img-thumbnail img-responsive" />
 						  </td>
 						  <td scope="row"><?=$row['cname']?></td>
@@ -715,8 +730,6 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						</tr>
 					<?php
 				}
-				
-				
 			endforeach;	
 			break;
 

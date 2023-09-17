@@ -26,34 +26,34 @@ class VVote extends MVote
     return $result;
   }
 
-  public static function readPendingVotes($branchname)
+  public static function readAllPendingVotes()
   {
   	$pendingVotes = new MVote();
-    $result = $pendingVotes->getTotalPendingVotes($branchname);
+    $result = $pendingVotes->getTotalPendingVotes();
 
     return $result;
   }
 
-  public static function readNumberOfVoters($branchname)
+  public static function readNumberOfVoters()
   {
     $numberVoters = new MVote();
-    $result = $numberVoters->getTotalNumberOfVoters($branchname);
+    $result = $numberVoters->getTotalNumberOfVoters();
 
     return $result;
   }
 
-  public static function readTotalAmmountPayment($branchname)
+  public static function readTotalAmmountPayment()
   {
     $amtPayment = new MVote();
-    $result = $amtPayment->getTotalAmmountPayment($branchname);
+    $result = $amtPayment->getTotalAmmountPayment();
 
     return $result;
   }
 
-  public static function readDataBySearch($searchInput, $branchname) 
+  public static function readDataBySearch($searchInput) 
   {
     $dataBySearch = new MVote();
-    $result = $dataBySearch->getDataBySearch($searchInput, $branchname);
+    $result = $dataBySearch->getDataBySearch($searchInput);
 
     return $result;
   }

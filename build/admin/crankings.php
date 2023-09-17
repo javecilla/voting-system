@@ -3,6 +3,7 @@ session_start();
 
 if(!isset($_SESSION['currentUser'])) {
   header('Location: http://127.0.0.1:8080/auth/login/');
+  //header('Location: https://portal.goldenmindsbulacan.com/auth/login/');
   exit();
 }
 ?>
@@ -20,28 +21,16 @@ if(!isset($_SESSION['currentUser'])) {
     <div class="row mt-4"> <!--data-aos="fade-up"-->
       <div class="col-lg-8">
         <ul class="nav nav-pills">
-          <li class="nav-item mr-4">
-            <button class="filter-item nav-link btn btn-primary filterBtnActive"
-            type="button" 
-            aria-current="page"
-            data-value="Golden Minds Colleges - Sta.Maria">Sta.Maria 
-          </li>
-          <li class="nav-item">
-            <button class="filter-item nav-link btn position-relative filterBtnNotActive"
-            id="balagtas"
-            type="button"
-            data-value="Golden Minds Colleges - Balagtas">Balagtas 
-          </button>
-          </li>
           <li class="nav-item">
             <div class="input-group mb-3">
+              <label class="input-group-text" for="filterCategory">Filter by Category</label>
           <select class="form-select cpointer" id="filterCategory">
             <option value="" selected>All</option>
             <option value="Lakan">Lakan</option>
             <option value="Lakanbini">Lakanbini</option> 
             <option value="Lakandyosa">Lakandyosa</option>
           </select>
-          <label class="input-group-text" for="filterCategory">Category</label>
+          
         </div>
           </li>
           <input type="hidden" id="filterActiveValue" value="Golden Minds Colleges - Sta.Maria">
@@ -57,6 +46,7 @@ if(!isset($_SESSION['currentUser'])) {
           <th scope="col">CID</th>
           <th scope="col">Photo</th>
           <th scope="col">Candidate Name</th>
+          <th scope="col">Branch</th>
           <th scope="col">Category</th>
           <th scope="col">Current Vote Points</th>
           <th scope="col">Number of Voters</th>

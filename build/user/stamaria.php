@@ -1,17 +1,35 @@
-<div>
-  <img decoding="async" data-aos="fade-in"
-  	src="/src/app/Storage/configuration/candidatesSMB.png" 
-  	class="card-img-top w-100 noTouch" 
-  />
+<div class="area">
+	  <ul class="circles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>	
+		</ul>
+		<center>
+			 <div class="row">
+			   <div class="col-md-1"></div>
+			   <div class="col-md-10">
+			   	<img src="/src/app/Storage/configuration/banner.png" 
+						class="noTouch  card-img-top"
+						decoding="async" 
+						data-aos="fade-in"
+					/>
+			   </div>
+			  <div class="col-md-1"></div>
+			</div>
+		</center>
+
   <div class="container mb-5">
 	  <form id="formFilter">
 	    <div class="row mt-4"> <!--data-aos="fade-up"-->
 	      <div class="col-lg-12 d-flex justify-content-center ">
 	        <div class="btn-group filterContainer" role="group">
-	        	<div class="btn-group">
-	            <button type="button" onclick="window.location.href='/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/'" 
-	            class="btn btn-light filterActive"><i class="fas fa-home"></i></button>
-	          </div>
 	         	<div class="btn-group">
 	            <button type="button" data-target="All" class="filter-item btn btn-light filterActive">All</button>
 	          </div>
@@ -76,15 +94,11 @@
 <script defer>
 	//check the uri if this contains '/admin/' print this is admin otherwise its user
 	const BASE_URI = '<?= parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>';
- 	const isAdmin = BASE_URI.includes('/admin/');
-	if(isAdmin) {
-    //console.log('This is admin');
-	} else {
-	  //console.log('This is user');
-	  $('.admin_mobile_nav').hide();
+ 	if(BASE_URI === "/buwan-ng-wikang-pambansa-2023-lakan-lakanbini-lakandyosa/candidates/") {
+ 		$('.admin_mobile_nav').hide();
 	 	$('.sidebar_admin').hide();
 	 	$('.adminContent').hide();
-	}
+ 	}
 
 	document.onkeydown = function(e) {
 		if(e.keyCode == 123) {

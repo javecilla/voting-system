@@ -158,35 +158,21 @@ if(isset($_GET['action']) && $_GET['action'] === READ && isset($_GET['task'])) {
 			break;
 
 		case 'pendingVotes':
-			if(isset($_GET['branchname'])) {
-				$pendingVotes = VVote::readPendingVotes($_GET['branchname']);
-				if($_GET['branchname'] === "Golden Minds Colleges - Balagtas") {
-					?>
-          <?php if($pendingVotes > 0): ?>
-           	<span class="pendingVote position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="countPendingVotesBalagtas">
-            	<?=$pendingVotes?>
-           		<span class="visually-hidden">Pending votes</span>
-            </span>
-          <?php else: ?>
-          <?php endif; ?>
-					<?php
-				} else {
-					?>
-          <?php if($pendingVotes > 0): ?>
-           	<span class="pendingVote position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="countPendingVotesStaMaria">
-              <?=$pendingVotes?>
-              <span class="visually-hidden">Pending votes</span>
-            </span>
-            <?php else: ?>
-           	<?php endif; ?>
-					<?php
-				}
-			} 
+			$pendingVotes = VVote::readAllPendingVotes();
+			?>
+        <?php if($pendingVotes > 0): ?>
+          <span class="pendingVote position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="countPendingVotesBalagtas">
+            <?=$pendingVotes?>
+           	<span class="visually-hidden">Pending votes</span>
+           </span>
+         <?php else: ?>
+         <?php endif; ?>
+				<?php
 			break;
 
 		case 'searchFilter':
 			$searchInput = filter_input(INPUT_GET, 'searchQuery', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			$result = VVote::readDataBySearch($searchInput, $_GET['branchname']);
+			$result = VVote::readDataBySearch($searchInput);
 			if(is_array($result)) {
 				foreach($result as $row): 
 				$datetimeVoted = date("F j, Y, g:iA", strtotime($row['vote_datetime'])); 
