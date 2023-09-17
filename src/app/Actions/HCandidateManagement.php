@@ -591,7 +591,7 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						<div class="card-header">
 						  <small class="text-uppercase"><?=$row['sbranch']?></small>
 						</div>
-						<div class="card mb-3" data-aos="fade-up">
+						<div class="card mb-3 pb-3" data-aos="fade-up">
 						  <div class="row g-0 ">
 						    <div class="col-md-4">
 						    	<img decoding="async" src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
@@ -601,28 +601,31 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						    <div class="col-md-8">
 						      <div class="card-body">
 						      	<span class="card-text">
+						      		
 						      		<span class="badge mb-2" style="background: #24382e;">
-						      			<span class="text-uppercase">CID</span>: <?=$row['cid']?>
+						      			<small class="text-uppercase">CID: <?=$row['cid']?></small>
 						      		</span>
 						        	<?php if($row['category'] === "Lakan"): ?>
-												<span class="badge bg-success"><?=$row['category']?></span>
+												<span class="badge bg-success"><small class="text-uppercase"><?=$row['category']?></small></span>
 											<?php elseif($row['category'] === "Lakanbini"): ?>
 												<span class="badge" style="background: #8eaf91;"><?=$row['category']?></span>
 											<?php elseif($row['category'] === "Lakandyosa"): ?>
 												<span class="badge" style="background: #4d8881;"><?=$row['category']?></span>
 											<?php endif; ?>
 						        </span>
-						        <h5 class="card-title"><?=$row['cname']?></h5>
-						        <input type="hidden" class="candidateVoteSid" value="<?=$row['sid']?>" />
-						        <input type="hidden" class="candidateCategory" value="<?=$row['category']?>"/>
-						        <input type="hidden" class="candidateBranch" value="<?=$row['sbranch']?>"/>
+						        <span class="badge bg-secondary"><small><?=$row['sbranch']?></small></span>
+						        <h5 class="card-title form-control"><?=$row['cname']?></h5>
 										<button type="button" 
 											data-id="<?=$row['sid']?>"
 											data-branch="<?=$row['sbranch']?>"
 											data-category="<?=$row['category']?>"
-											class="voteBtn btn btn-light mt-2" 
+											class="voteBtn btn btn-light mt-2 float-end" 
 											style="background-color: #f3e3d3!important;">
 										    <i class="fas fa-thumbs-up"></i>&nbsp;Vote
+										</button>
+										<button type="button"
+											class="btn-light btn mt-2 float-end">
+											<i class="fas fa-share"></i>&nbsp;Share
 										</button>
 						      </div>
 						    </div>
@@ -638,47 +641,51 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 			foreach($result as $row):
 				if(isset($_GET['purpose']) && $_GET['purpose'] === 'clientSide') { //render it in client side
 					?>
-						<div class="col">
-							<div class="card mb-3">
-								<div class="card-header">
-						  		<small class="text-uppercase"><?=$row['sbranch']?></small>
-								</div>
-							  <div class="row g-0 ">
-							    <div class="col-md-4">
-							    	<img src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
-											alt="Candidate Photo" class="img-fluid rounded-start" 
-										/>
-							    </div>
-							    <div class="col-md-8">
-							      <div class="card-body">
-							      	<span class="card-text">
-							      		<span class="badge mb-2" style="background: #24382e;">
-							      			<span class="text-uppercase">CID</span>: <?=$row['cid']?>
-							      		</span>
-							        	<?php if($row['category'] === "Lakan"): ?>
-													<span class="badge bg-success"><?=$row['category']?></span>
-												<?php elseif($row['category'] === "Lakanbini"): ?>
-													<span class="badge" style="background: #8eaf91;"><?=$row['category']?></span>
-												<?php elseif($row['category'] === "Lakandyosa"): ?>
-													<span class="badge" style="background: #4d8881;"><?=$row['category']?></span>
-												<?php endif; ?>
-							        </span>
-							        <h5 class="card-title"><?=$row['cname']?></h5>
-							        <input type="hidden" class="candidateVoteSid" value="<?=$row['sid']?>" />
-							        <input type="hidden" class="candidateCategory" value="<?=$row['category']?>"/>
-							        <input type="hidden" class="candidateBranch" value="<?=$row['sbranch']?>"/>
-											<button type="button" 
+											<div class="col">
+						<div class="card-header">
+						  <small class="text-uppercase"><?=$row['sbranch']?></small>
+						</div>
+						<div class="card mb-3 pb-3" data-aos="fade-up">
+						  <div class="row g-0 ">
+						    <div class="col-md-4">
+						    	<img decoding="async" src="/src/app/Storage/candidates/<?=$row['imgname']?>.<?=$row['imgext']?>" 
+										alt="Candidate Photo" class="img-fluid rounded-start" 
+									/>
+						    </div>
+						    <div class="col-md-8">
+						      <div class="card-body">
+						      	<span class="card-text">
+						      		
+						      		<span class="badge mb-2" style="background: #24382e;">
+						      			<small class="text-uppercase">CID: <?=$row['cid']?></small>
+						      		</span>
+						        	<?php if($row['category'] === "Lakan"): ?>
+												<span class="badge bg-success"><small class="text-uppercase"><?=$row['category']?></small></span>
+											<?php elseif($row['category'] === "Lakanbini"): ?>
+												<span class="badge" style="background: #8eaf91;"><?=$row['category']?></span>
+											<?php elseif($row['category'] === "Lakandyosa"): ?>
+												<span class="badge" style="background: #4d8881;"><?=$row['category']?></span>
+											<?php endif; ?>
+						        </span>
+						        <span class="badge bg-secondary"><small><?=$row['sbranch']?></small></span>
+						        <h5 class="card-title form-control"><?=$row['cname']?></h5>
+										<button type="button" 
 											data-id="<?=$row['sid']?>"
 											data-branch="<?=$row['sbranch']?>"
 											data-category="<?=$row['category']?>"
-											class="voteBtn btn btn-light mt-2" style="background-color: #f3e3d3!important;">
-											    <i class="fas fa-thumbs-up"></i>&nbsp;Vote
-											</button>
-							      </div>
-							    </div>
-							  </div>
-							</div>
-						</div>
+											class="voteBtn btn btn-light mt-2 float-end" 
+											style="background-color: #f3e3d3!important;">
+										    <i class="fas fa-thumbs-up"></i>&nbsp;Vote
+										</button>
+										<button type="button"
+											class="btn-light btn mt-2 float-end">
+											<i class="fas fa-share"></i>&nbsp;Share
+										</button>
+						      </div>
+						    </div>
+						  </div>
+					</div>
+					</div>
 					<?php
 				} else { //render by admin side
 					?>

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Functions\RFunctions;
-use App\Controllers\CVote;
+use App\Controllers\{CVote, CAuthentication};
 use App\Views\VVote;
 
 define('CREATE', 'create');
@@ -15,23 +15,31 @@ define('DELETE', 'delete');
 if(isset($_POST['action'])) {
 	$response = [];
 	$action = $_POST['action'];
-	
+	$gaction = $_POST['gaction'];
+  $ctoken = $_POST['ctoken'];
+
 	switch ($action) {
 		case CREATE:
-			$emailValidationResult = RFunctions::validateEmail($_POST['votersEmail']);
-			if($emailValidationResult['success']) {
-				$dataForm = [
-					'sid' => $_POST['sid'],
-					'amtPayment' => $_POST['amtPayment'],
-					'votePoints' => $_POST['votePoints'],
-					'referrenceNumber' => filter_input(INPUT_POST, 'referrenceNumber', FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_NO_ENCODE_QUOTES),
-					'votersEmail' => $emailValidationResult['email']
-				];
-				$result = CVote::processVote($dataForm);
-				$response = ['success' => true, 'message' => $result['message']];
+			$client = new CAuthentication();
+  		$validateRecaptcha = $client->verifyRecaptha($gaction, $ctoken);
+  		if($validateRecaptcha['success']) {
+				$emailValidationResult = RFunctions::validateEmail($_POST['votersEmail']);
+				if($emailValidationResult['success']) {
+					$dataForm = [
+						'sid' => $_POST['sid'],
+						'amtPayment' => $_POST['amtPayment'],
+						'votePoints' => $_POST['votePoints'],
+						'referrenceNumber' => filter_input(INPUT_POST, 'referrenceNumber', FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_NO_ENCODE_QUOTES),
+						'votersEmail' => $emailValidationResult['email']
+					];
+					$result = CVote::processVote($dataForm);
+					$response = ['success' => true, 'message' => $result['message']];
+				} else {
+					$response = ['success' => false, 'message' => $emailValidationResult['message']];
+				}
 			} else {
-				$response = ['success' => false, 'message' => $emailValidationResult['message']];
-			}
+  			$response = ['success' => false, 'message' => $validateRecaptcha['message']];
+  		}
 			break;
 
 		case UPDATE:

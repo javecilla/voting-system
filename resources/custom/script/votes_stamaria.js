@@ -6,7 +6,7 @@ jQuery(document).ready(function() {
 	getAllCandidatesData();
 
 	/**[To submit the votes] **/ 
-	$('#submitVote').on('click', (e) => {
+	$(document).on('submit', '#submitVoteMForm', (e) => {
 		e.preventDefault();
 		const REGX_EMAIL = /^([a-zA-z]+)([0-9]+)?(@)([a-zA-Z]{5,10}(.)([a-zA-Z]+))$/i;
 		const maxLength = parseInt(13);
@@ -37,101 +37,107 @@ jQuery(document).ready(function() {
         confirmButtonText: 'Okay'
       });
 		} else {
-			const formData = new FormData();
-			formData.append('sid', $('#vSID').val());
-			formData.append('amtPayment', selectedAmtPayment);
-			formData.append('votePoints', equivalentVotePoints);
-			formData.append('referrenceNumber', referrenceNumber);
-			formData.append('votersEmail', votersEmail);
-			formData.append('action', 'create');
-			
-			// formData.forEach((value, key) => {
-    	// 	console.log(`${key}: ${value}`);
-			// });
-
-			Swal.fire({
-       	title: "Confirm Your Vote",
-    		text: "Please take a moment to verify your vote and ensure that you have selected your intended candidate.",
-        icon: "info",
-        showConfirmButton: true,
-        confirmButtonText: "Okay",
-        confirmButtonColor: "#5f76e8",
-        showCancelButton: true,
-        cancelButtonText: "Cancel",
-        showLoaderOnConfirm: true,
-        allowEscapeKey : false,
-        allowOutsideClick: false,
-        preConfirm: (response) => { 
-          if(!response) {
-            return false;
-          } else {
-            return new Promise(function(resolve) { 
-              setTimeout(function () { 
-              	$.ajax({
-									url: "../../src/app/Actions/HClientVotes.php",
-									method: "POST",
-									data: formData,
-									dataType: "JSON",
-									contentType: false,
-					        processData: false,
-									success: (response) => {
-										try	{
-											const serverResponse = JSON.parse(JSON.stringify(response));
-											if(serverResponse.success) { //voting submit request successfully proccess
+			//send request to google api:recaptcha
+			grecaptcha.ready(function() {
+				grecaptcha.execute('6LcyI_snAAAAAHW5adG9Y-MzsIzUTNEFUP35gZXj', {
+          action: 'submit'
+        }).then(function(token){
+					const formData = new FormData();
+					formData.append('sid', $('#vSID').val());
+					formData.append('amtPayment', selectedAmtPayment);
+					formData.append('votePoints', equivalentVotePoints);
+					formData.append('referrenceNumber', referrenceNumber);
+					formData.append('votersEmail', votersEmail);
+					formData.append('ctoken', token);
+					formData.append('gaction', 'submit');
+					formData.append('action', 'create');
+				
+					Swal.fire({
+		       	title: "Confirm Your Vote",
+		    		text: "Please take a moment to verify your vote and ensure that you have selected your intended candidate.",
+		        icon: "info",
+		        showConfirmButton: true,
+		        confirmButtonText: "Okay",
+		        confirmButtonColor: "#5f76e8",
+		        showCancelButton: true,
+		        cancelButtonText: "Cancel",
+		        showLoaderOnConfirm: true,
+		        allowEscapeKey : false,
+		        allowOutsideClick: false,
+		        preConfirm: (response) => { 
+		          if(!response) {
+		            return false;
+		          } else {
+		            return new Promise(function(resolve) { 
+		              setTimeout(function () { 
+		              	$.ajax({
+											url: "../../src/app/Actions/HClientVotes.php",
+											method: "POST",
+											data: formData,
+											dataType: "JSON",
+											contentType: false,
+							        processData: false,
+											success: (response) => {
+												try	{
+													const serverResponse = JSON.parse(JSON.stringify(response));
+													if(serverResponse.success) { //voting submit request successfully proccess
+														Swal.fire({
+							                title: '',
+							                html: `<h5>${serverResponse.message}</h5>`,
+							                icon: 'success',
+							                confirmButtonText: 'Vote again this candidate',
+							                showCancelButton: true,
+		        									cancelButtonText: "Done and exit"
+							              }).then((result) => {
+							              	$('#selectPayment').val('');
+							                $('#equivalentVotePoints').val('');
+							                $('#referrenceNumber').val('');
+							                $('#votersEmail').val('');
+		      										$('#qrCodeImage').attr('src', '');
+							              	(result.isConfirmed) ? openModal('#modalVoteForm') : closeModal('#modalVoteForm');
+							              });
+													} else { //something wrong upon proccessing ...voting request
+														Swal.fire({
+							                title: '',
+							                html: `<h5>${serverResponse.message}</h5>`,
+							                icon: 'error',
+							                focusConfirm: false,
+							                confirmButtonColor: '#880808',
+							                confirmButtonText: 'Okay'
+							              }).then((result) => { return result.isConfirmed ? false : undefined; });
+													}
+												} catch(error) {
+													Swal.fire({
+							              title: '',
+							              html: `<h5>${error}</h5>`,
+							              icon: 'error',
+							              focusConfirm: false,
+							              confirmButtonColor: '#880808',
+							              confirmButtonText: 'Okay'
+							            }).then((result) => { return result.isConfirmed ? false : undefined; });
+												}
+											},
+											error(xhr, staus, error) {
 												Swal.fire({
-					                title: '',
-					                html: `<h5>${serverResponse.message}</h5>`,
-					                icon: 'success',
-					                confirmButtonText: 'Vote again this candidate',
-					                showCancelButton: true,
-        									cancelButtonText: "Done and exit"
-					              }).then((result) => {
-					              	$('#selectPayment').val('');
-					                $('#equivalentVotePoints').val('');
-					                $('#referrenceNumber').val('');
-					                $('#votersEmail').val('');
-      										$('#qrCodeImage').attr('src', '');
-					              	(result.isConfirmed) ? openModal('#modalVoteForm') : closeModal('#modalVoteForm');
-					              });
-											} else { //something wrong upon proccessing ...voting request
-												Swal.fire({
-					                title: '',
-					                html: `<h5>${serverResponse.message}</h5>`,
-					                icon: 'error',
-					                focusConfirm: false,
-					                confirmButtonColor: '#880808',
-					                confirmButtonText: 'Okay'
-					              }).then((result) => { return result.isConfirmed ? false : undefined; });
+							            title: '',
+							            html: `<h5>${xhr.responseText}<br/>${error.responseText}</h5>`,
+							            icon: 'error',
+							            focusConfirm: false,
+							            confirmButtonColor: '#880808',
+							            confirmButtonText: 'Okay'
+							          }).then((result) => { return result.isConfirmed ? false : undefined; });
 											}
-										} catch(error) {
-											Swal.fire({
-					              title: '',
-					              html: `<h5>${error}</h5>`,
-					              icon: 'error',
-					              focusConfirm: false,
-					              confirmButtonColor: '#880808',
-					              confirmButtonText: 'Okay'
-					            }).then((result) => { return result.isConfirmed ? false : undefined; });
-										}
-									},
-									error(xhr, staus, error) {
-										Swal.fire({
-					            title: '',
-					            html: `<h5>${xhr.responseText}<br/>${error.responseText}</h5>`,
-					            icon: 'error',
-					            focusConfirm: false,
-					            confirmButtonColor: '#880808',
-					            confirmButtonText: 'Okay'
-					          }).then((result) => { return result.isConfirmed ? false : undefined; });
-									}
-								});
-                        
-              }, 2000);
-            });
-          }
-        },
-      	allowOutsideClick: () => !Swal.isLoading()
-      });
+										});
+		                        
+		              }, 2000);
+		            });
+		          }
+		        },
+		      	allowOutsideClick: () => !Swal.isLoading()
+		      });
+
+       }); //end callback execute
+			}); //end grecaptcha>ready
 		}
 	});
 
