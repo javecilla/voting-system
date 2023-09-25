@@ -10,10 +10,11 @@ jQuery(document).ready(function() {
 		e.preventDefault();
 		const REGX_EMAIL = /^([a-zA-z]+)([0-9]+)?(@)([a-zA-Z]{5,10}(.)([a-zA-Z]+))$/i;
 		const maxLength = parseInt(13);
-		let selectedAmtPayment = $('#selectPayment').val();
+		let selectedAmtPayment = $('#paymentSelectedHidden').val();
 		let equivalentVotePoints = $('#equivalentVotePoints').val();
-		let referrenceNumber = $('#referrenceNumber').val();
 		let votersEmail = $('#votersEmail').val();
+		let referrenceNumber = $('#referrenceNumber').val();
+		//alert("payment: " + selectedAmtPayment + " at sa vote points: " + equivalentVotePoints);
 		//start validate input
 		if(isEmpty(selectedAmtPayment) || isEmpty(equivalentVotePoints)  || isEmpty(referrenceNumber) || isEmpty(votersEmail)) {
 			Swal.fire({
@@ -141,31 +142,36 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	/**[To process ammount payment]**/
-	$(document).on('change', '#selectPayment', (e) => {
-    e.preventDefault();
-    const selectedPayment = $(e.currentTarget).val();
-    //define payment options with their amounts, points and qrcode
-    const paymentOptions = {
-      '10': { amount: '10', points: '10', qrcode: '/src/app/Storage/qrcodes/sample_qr_payment=10.jpg' },
-      '50': { amount: '50', points: '75', qrcode: '/src/app/Storage/qrcodes/sample_qr_payment=50.png' },
-      '100': { amount: '100', points: '200', qrcode: '/src/app/Storage/qrcodes/sample_qr_payment=100.png' }
-   	};
-    //check if yung selected payment option exists doon paymentOptions object
-    if(paymentOptions.hasOwnProperty(selectedPayment)) {
-    	//get payment details (amount, points, qrcode)
-      const payment = paymentOptions[selectedPayment];
-      const { amount, points, qrcode } = payment;
 
-      //console.log(`${amount} pesos for ${points} vote points`);
-      $('#equivalentVotePoints').val(points);
-      $('#qrCodeImage').attr('src', qrcode);
-   	} else { 
-      //console.log('Unknown payment selected');
-      $('#equivalentVotePoints').val('');
-      $('#qrCodeImage').attr('src', '');
-   	}
+	
+	$(document).on('click', '.list-group-item[data-action="payment"]', (e) => {
+	  e.preventDefault();
+	  const selectedButton = $(e.currentTarget);
+	  const selectedAmount = selectedButton.data('amount');
+	  
+	  const paymentOptions = {
+	    '10': { amount: '10', points: '10', qrcode: '/src/app/Storage/qrcodes/IMG-qr=10.PNG' },
+	    '20': { amount: '20', points: '40', qrcode: '/src/app/Storage/qrcodes/IMG-qr=10.PNG' },
+	    '50': { amount: '50', points: '75', qrcode: '/src/app/Storage/qrcodes/IMG-qr=50.PNG' },
+	    '100': { amount: '100', points: '200', qrcode: '/src/app/Storage/qrcodes/IMG-qr=100.PNG' }
+	  };
+	  
+	  const payment = paymentOptions[selectedAmount];
+	  const { amount, points, qrcode } = payment;
+
+	  $('#equivalentVotePoints').val(points);
+	  $('#paymentSelectedHidden').val(amount);
+	  $('#qrCodeImage').attr('src', qrcode);
 	});
+
+	$(document).on('click', '.btn-next-step[data-confirm="proceed"]', (e) => {
+		e.preventDefault();
+		$('#firstStep').hide();
+		$('#secondStep').show();
+		$('#confirmButton').hide();
+		$('#guidStepText').text('To complete your vote submission, please enter the reference number provided by gcash and your contact number, and then click the "Submit Vote" button');
+	});	
+
 
 	/**[To render data in modal of candidate by id]**/
 	$(document).on('click', '.voteBtn', (e) => {

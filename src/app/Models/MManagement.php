@@ -56,7 +56,10 @@ class MManagement extends Database
 	/* [to get all candidates records] */
 	protected function getAllData() 
 	{
-		$stmt = $this->db()->prepare("SELECT * FROM candidate ORDER BY sid DESC");
+		$stmt = $this->db()->prepare("
+			SELECT * 
+			FROM candidate 
+			ORDER BY sid DESC");
 		$stmt->execute();
 		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		

@@ -1,3 +1,32 @@
+  function getAllVoteRecordsBySID(sid) {
+    $.ajax({
+      url: "../../src/app/Actions/HClientVotes.php",
+      method: "GET",
+      dataType: "html",
+      data: { 
+        action: 'read', 
+        task: 'voteRecordsBySID',
+        sid: sid
+      },
+      success: (data) => {
+        $('#tbodyVotesRecords').html(data);
+      }
+    });
+  }
+
+  function getCandidateByVotes() {
+    $.ajax({
+      url: "../../src/app/Actions/HClientVotes.php",
+      method: "GET",
+      dataType: "html",
+      data: { action: 'read', task: 'candidatesByVote' },
+      success: (data) => {
+        $('#dropDownSelectCandidate').html(data);
+      }
+    });
+  }
+
+
   function getCandidatesRank() {
     $.ajax({
       url: "../../src/app/Actions/HCandidatesRanking.php",
@@ -25,6 +54,18 @@
       },
       success: (data) => {
         $('#tbodyCandidatesRanking').html(data);
+      }
+    });
+  }
+
+  function getVoteDataById(vid) {
+    $.ajax({
+      url: "../../src/app/Actions/HClientVotes.php",
+      method: "GET",
+      dataType: "html",
+      data: { action: 'read', task: 'byId', vid: vid },
+      success: (data) => {
+        $('#updateVoteModalBody').html(data);
       }
     });
   }

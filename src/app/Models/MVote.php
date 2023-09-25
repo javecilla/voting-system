@@ -72,6 +72,8 @@ class MVote extends Database
 		return $this->response;
 	}
 
+
+
 	/* [To get all votes records]*/
 	protected function getAllData()
 	{
@@ -81,6 +83,61 @@ class MVote extends Database
 			ORDER BY v.vote_datetime AND v.vote_status = :vstatus DESC");
 		$stmt->bindParam(':vstatus', $this->pending, \PDO::PARAM_INT);
 
+		$stmt->execute();
+		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		
+		return $result !== false ? $result : null;
+	}
+
+	protected function getDataById($vid) 
+	{
+		$stmt = $this->db()->prepare("SELECT * FROM votes WHERE vid = :vid");
+		$stmt->bindParam(':vid', $vid, \PDO::PARAM_STR);
+		$stmt->execute();
+		$result = $stmt->fetch(\PDO::FETCH_ASSOC);	
+		return $result !== false ? $result : null;
+	}
+
+	protected function setPayment($data)
+	{
+		$stmt = $this->db()->prepare("UPDATE votes 
+			SET amt_payment = :amtpayment, vote_points = :votepoints  
+			WHERE vid = :vid LIMIT 1");
+		$stmt->bindParam(':amtpayment', $data['amtPayment'], \PDO::PARAM_INT);
+		$stmt->bindParam(':votepoints', $data['votePoints'], \PDO::PARAM_INT);
+		$stmt->bindParam(':vid', $data['vid'], \PDO::PARAM_INT);
+		if(!$stmt->execute()) {
+			$this->response = ['success' => false, 'message' => 'Failed to update payment: ' . $stmt->errorInfo()[2]];
+		}
+
+		$this->response = ['success' => true, 'message' => 'Payment Updated Successfully!'];
+
+		return $this->response;
+	}
+
+	protected function getCandidateVotes() 
+	{
+		$stmt = $this->db()->prepare("
+			SELECT DISTINCT c.*, v.sid
+			FROM votes v 
+			INNER JOIN candidate c ON v.sid = c.sid
+		");
+
+		$stmt->execute();
+		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+		return $result !== false ? $result : null;
+	}
+
+	protected function getDataBySid($sid)
+	{
+		$stmt = $this->db()->prepare("SELECT v.*, c.* 
+			FROM votes v
+			INNER JOIN candidate c ON v.sid = c.sid
+			WHERE v.sid = :vsid
+			ORDER BY v.vote_datetime AND v.vote_status = :vstatus DESC");
+		$stmt->bindParam(':vsid', $sid, \PDO::PARAM_INT);
+		$stmt->bindParam(':vstatus', $this->pending, \PDO::PARAM_INT);
 		$stmt->execute();
 		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		

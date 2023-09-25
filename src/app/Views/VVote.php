@@ -10,6 +10,27 @@ use App\Models\MVote;
 
 class VVote extends MVote
 {
+  public static function readCandidateVotes()
+  {
+    $data = new MVote();
+    $result = $data->getCandidateVotes();
+    return $result;
+  }
+
+  public static function readDataBySID($sid)
+  {
+    $dataBySid = new MVote();
+    $result = $dataBySid->getDataBySid($sid);
+    return $result;
+  }
+
+  public static function readDataById($vid) 
+  {
+    $dataById = new MVote();
+    $result = $dataById->getDataById($vid);
+    return $result;
+  }
+
 	public static function readAllData()
   {
     $allData = new MVote();

@@ -39,7 +39,7 @@ border: 1px solid rgba(74, 74, 74, 0.06);
   height: 50px;
 /*  background-color: #996515; */
   position: fixed;
-  top: 45%;
+  top: 40%;
   border-radius: 50%;
   cursor: pointer;
   z-index: 2;
@@ -73,21 +73,25 @@ ul {
 /*  background: #4267B2;*/
 }
 .soc_icons li:nth-child(2) a{
+  background: #f8bf33;
+/*  background: #4267B2;*/
+}
+.soc_icons li:nth-child(3) a{
   background: #4267B2;
 /*  background: #1DA1F2;*/
 }
-.soc_icons li:nth-child(3) a{
+.soc_icons li:nth-child(4) a{
   background: #1DA1F2;
 /*  background: #E1306C;*/
 }
-.soc_icons li:nth-child(4) a{
+.soc_icons li:nth-child(5) a{
 /*  background: #2867B2;*/
 background: #ff0000;
 }
-.soc_icons li:nth-child(5) a{
+.soc_icons li:nth-child(6) a{
   background: #333;
 }
-.soc_icons li:nth-child(6) a{
+.soc_icons li:nth-child(7) a{
   background: #ff0000;
 }
 .soc_icons li a i{

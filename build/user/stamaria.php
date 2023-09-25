@@ -90,6 +90,11 @@
 
  	<nav class="soc_icons">
     <ul>
+    	<li><a href="https://portal.goldenmindsbulacan.com/auth/login/"
+        target="_blank" 
+        data-bs-toggle="tooltip" 
+        data-bs-placement="right" 
+       data-bs-title="Online Portal | Golden Minds Website"><i class="fa-solid fa-user-gear"></i><span></span></a></li>
       <li><a href="https://www.goldenmindsbulacan.com/"
         target="_blank" 
         data-bs-toggle="tooltip" 

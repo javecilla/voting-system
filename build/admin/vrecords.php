@@ -19,20 +19,23 @@ if(!isset($_SESSION['currentUser'])) {
   <div class="section-title"><h2>Voting Records</h2></div>
   <div id="filter" class="mt-4">
     <div class="row mt-4"> <!--data-aos="fade-up"-->
-      <div class="col-lg-4">
+      <div class="col-lg-1">
         <ul class="nav nav-pills">
-          <li class="nav-item mr-4">
+          <li class="nav-item ">
             <button class="filter-item nav-link btn btn-light position-relative filterBtnActive"
             type="button" 
             aria-current="page"
             data-value="All"
             >All
-            <span id="allpendingVotes"> <!--pendingVoteStaMaria-->
-                
-            </span>
+            <span id="allpendingVotes"> <!--pendingVoteStaMaria-->            </span>
           </button>
           </li>
         </ul>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-floating" id="dropDownSelectCandidate">
+          
+        </div>
       </div>
  
       <div class="col-lg-8">
@@ -78,6 +81,26 @@ if(!isset($_SESSION['currentUser'])) {
     </table>
   </div>
 </section>
+
+<div class="modal fade" tabindex="-1" id="updateVoteModalForm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn text-white" onclick="closeModal('#updateVoteModalForm')">
+           <i class="fa-solid fa-xmark closeModalIcon"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="updateVoteModalBody">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary text-white" onclick="closeModal('#updateVoteModalForm')">Close</button>
+        <button type="button" id="updateVote" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script src="/resources/custom/script/votes_records.js"></script>

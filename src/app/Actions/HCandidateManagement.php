@@ -211,84 +211,112 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						      </ul> 
 	  						</div>
 	  						<div class="row mt-2 g-0">
-	  							<div class="instruction alert alert-warning d-flex align-items-center" role="alert">
-								<small class="text-justify">
-									For a smooth and precise voting experience, kindly adhere to the following guidelines:
-									<ol>
-										<li><b>Choose Payment Amount</b>: Begin by selecting the desired payment amount.</li>
-										<li><b>Scan QR Code</b>: Scan the provided QR code with your device's camera.</li>
-										<li><b>Enter Refference Number</b>: Enter the reference number from GCash.</li>
-										<li><b>Email Address</b>: Provide your valid email address.</li>
-										<li><b>Submit Vote</b>: Click the "Submit Vote" button to confirm.</li>
-									</ol>
-									Your cooperation in following these steps ensures a seamless voting process.
-								</small>
-							</div>
+							  	<div class="instruction alert alert-warning alert-dismissible fade show instructionModal" role="alert">
+										<small class="text-justify">
+											For a smooth and precise voting experience, kindly adhere to the following guidelines:
+											<ol>
+												<li><b>Choose Payment Amount</b>: Begin by selecting the desired payment amount.</li>
+												<li><b>Scan QR Code</b>: Scan the provided QR code with your device's camera.</li>
+												<li><b>Enter Refference Number</b>: Enter the reference number from GCash.</li>
+												<li><b>Submit Vote</b>: Click the "Submit Vote" button to confirm.</li>
+											</ol>
+											Your cooperation in following these steps ensures a seamless voting process.
+										</small>
+  									<button type="button" class="btn-close" id="alertClose"></button>
+									</div>
 	  						</div>
     					</div>
 						</div>
 						<div class="row g-0 p-1">
-	  					
 							<div class="votingInput">
 								<div class="row g-0 p-1">
-								 	<div class="col-md-8 p-2">
-								 		<div class="row">
-								 			<div class="col-md-6 mb-2">
-								 				<div class="form-floating">
-										      <select class="form-select" id="selectPayment">
-										        <option value="" selected>--SELECT--</option>
-										        <option value="10">₱10</option>
-										        <option value="50">₱50</option>
-										        <option value="100">₱100</option>
-										      </select>
-									      	<label for="selectPayment">Select Amount of payment</label>
-									    	</div>
-								 			</div>
-								 			<div class="col-md-6 mb-2">
-								 				<div class="form-floating">
-      										<input type="text" class="form-control noEvents" value="" id="equivalentVotePoints" />
-      										<label for="equivalentVotePoints">Equivalent Vote Points</label>
-    										</div>
-								 			</div>
-								 			<div class="col-md-6 mb-2">
-								 				<div class="form-floating">
-      										<input type="number" class="form-control" 
-      											value=""
-      											maxlength="13" 
-      											inputmode="numeric" 
-      											id="referrenceNumber" 
-      										/>
-      										<label for="referrenceNumber">Enter Referrence Number</label>
-    										</div>
-								 			</div>
-								 			<div class="col-md-6 mb-2">
-								 				<div class="form-floating">
-      										<input type="text" class="form-control" 
-      											value="" 
-      											id="votersEmail"
-      											autocomplete="off"
-      											aria-label="Enter your Email" 
-      											list="emailSuggestion"
-      										/>
-      										<datalist id="emailSuggestion">
-										        <option value="javecilla@gmail.com">
-										        <option value="info@goldenmindsbulacan.com">
-										        <option value="admission@goldenmindsbulacan.com">
-										      </datalist>
-      										<label for="votersEmail">Enter your Email</label>
-    										</div>
-								 			</div>
-								 		</div>
+								 	<div class="col-md-7 mb-2">
+								 		<div id="firstStep">
+										  <div class="list-group">
+												<button class="list-group-item list-group-item-action" 
+													type="button" aria-current="true" disabled>
+													<strong>Choose Amount of payment</strong>
+												</button>
+												<button class="list-group-item list-group-item-action" 
+													type="button" 
+													data-action="payment"
+													data-amount="10">
+													₱10.00 <i class="fa-solid fa-arrow-right"></i> 10 vote points
+												</button>
+												<button class="list-group-item list-group-item-action" 
+													type="button" 
+													data-action="payment"
+													data-amount="20">
+													₱20.00 <i class="fa-solid fa-arrow-right"></i> 40 vote points
+												</button>
+												<button class="list-group-item list-group-item-action" 
+													type="button" 
+													data-action="payment"
+													data-amount="50">
+													₱50.00 <i class="fa-solid fa-arrow-right"></i> 75 vote points
+												</button>
+												<button class="list-group-item list-group-item-action" 
+													type="button" 
+													data-action="payment"
+													data-amount="100">
+													₱100.00 <i class="fa-solid fa-arrow-right"></i> 200 vote points
+												</button>
+											</div>
+											<div class="p-2 noEvents mb-2">
+												<div class="form-control mb-2">
+												  <small>QR Code Image Preview</small>
+												</div>
+												<div class="card cardAuto">
+													 <img src="" alt="..." id="qrCodeImage" class="img-card-top" /> 
+												</div>
+											</div>
+										</div>
 								 	</div>
-									<div class="col-md-4 p-2 noEvents mb-2">
-										<div class="form-control mb-2">
-								      <small>QR Code Image Preview</small>
-								    </div>
-								    <div class="card cardAuto">
-								    	<img src="" alt="..." id="qrCodeImage" 
-								      	class="img-card-top" />
-								    </div>
-									</div>
+								 	<input type="hidden" id="equivalentVotePoints" value="" />
+									<input type="hidden" id="paymentSelectedHidden" value="" />
+								 	<div class="col-md-5 mb-2">
+								 		<div class="list-group mb-2">
+											<button class="list-group-item list-group-item-action" 
+												type="button" aria-current="true" disabled>
+												<strong><small><span id="guidStepText">Please scan the QR Code provided above. After you scan it, confirm the presence of the reference number you if see the reference number. Click the 'Yes' button to proceed once you have confirmed it.</span></small></strong>
+											</button>
+										</div>
+
+										<div class="row g-3" id="confirmButton">
+										  <div class="col">
+										   <button type="button" class="btn btn-light form-control">No</button>
+										  </div>
+										  <div class="col">
+										    <button type="button" class="btn btn-success form-control btn-next-step" data-confirm="proceed">Yes</button>
+										  </div>
+										</div>
+								 		<div id="secondStep" style="display: none;">
+									 		<div class="form-floating">
+	      								<input type="number" class="form-control" 
+	      									value=""
+	      									maxlength="13" 
+	      									inputmode="numeric" 
+	      									id="referrenceNumber" 
+	      								/>
+	      								<label for="referrenceNumber">Enter Referrence Number</label>
+	    								</div>
+	    								<div class="form-floating mt-3">
+      									<input type="text" class="form-control" 
+      										value="" 
+      										id="votersEmail"
+      										autocomplete="off"
+      										aria-label="Enter your Email" 
+      										list="emailSuggestion"
+      									/>
+      									<datalist id="emailSuggestion">
+										      <option value="javecilla@gmail.com">
+										      <option value="info@goldenmindsbulacan.com">
+										      <option value="admission@goldenmindsbulacan.com">
+										    </datalist>
+      									<label for="votersEmail">Enter your Email</label>
+    									</div>
+    								</div>
+								 	</div>
 								</div>
 							</div>
 		  			</div>
@@ -588,9 +616,6 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 			foreach($result as $row):
 				?>
 					<div class="col">
-						<div class="card-header">
-						  <small class="text-uppercase"><?=$row['sbranch']?></small>
-						</div>
 						<div class="card mb-3 pb-3" data-aos="fade-up">
 						  <div class="row g-0 ">
 						    <div class="col-md-4">
@@ -615,6 +640,35 @@ if(isset($_GET['action']) && isset($_GET['category'])) {
 						        </span>
 						        <span class="badge bg-secondary"><small><?=$row['sbranch']?></small></span>
 						        <h5 class="card-title form-control"><?=$row['cname']?></h5>
+
+						        <?php 
+						        $countTotal = VManagement::readDataById($row['sid']);
+						        ?>
+						        <div class="row g-1 mb-2 mt-2">
+		    							<ul class="list-group">
+							          <li class="list-group-item d-flex justify-content-between align-items-start">
+							            <div class="ms-2 me-auto">
+							              <div class="fw-bold">Current Votes: </div><small>(Total number of votes)</small>
+							            </div>
+							           	<span class="badge badgeClient rounded-pill" id="numberOfVotes">
+							           		<?=$countTotal['total_number_of_voters'] > 0 ? $countTotal['total_number_of_voters'] : '0';?>
+							           	</span>
+							          </li>
+							        </ul> 
+  									</div>
+	  						<div class="row g-1 mt-2">
+	  							<ul class="list-group">
+						        <li class="list-group-item d-flex justify-content-between align-items-start">
+						          <div class="ms-2 me-auto">
+						            <div class="fw-bold">Current Points: </div><small>(Total of vote points)
+						            &nbsp;&nbsp;&nbsp;&nbsp;</small>
+						          </div>
+						          <span class="badge badgeClient rounded-pill" id="votePoints">
+						          	<?=$countTotal['total_vote_points'] > 0 ? $countTotal['total_vote_points'] : '0';?>
+						          </span>
+						        </li>
+						      </ul> 
+	  						</div>
 										<button type="button" 
 											data-id="<?=$row['sid']?>"
 											data-branch="<?=$row['sbranch']?>"
